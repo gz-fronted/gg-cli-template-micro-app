@@ -3,7 +3,6 @@
  * 采用对象配置模式，便于管理和扩展
  */
 import { lazy, Suspense, type ComponentType, type LazyExoticComponent } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
 import { Spin } from 'antd';
 import BasicLayout from '@/layouts/BasicLayout';
 
@@ -55,8 +54,4 @@ const routes = [
   },
 ];
 
-// 根据是否在 Garfish 环境中运行来决定 basename
-// 主应用中注册的子应用激活路径为 /micro-react-1
-const basename = window.__GARFISH__ ? '/micro-react-1' : '/';
-
-export const router = createBrowserRouter(routes, { basename });
+export { routes };

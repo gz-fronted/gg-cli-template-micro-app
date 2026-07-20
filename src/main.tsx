@@ -1,8 +1,8 @@
 import { createRoot } from 'react-dom/client';
-import { RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { reactBridge } from '@garfish/bridge-react-v18';
 import { ConfigProvider } from 'gz-ui';
-import { router } from '@/router';
+import { routes } from '@/router';
 import { useGlobalStore } from '@/store/useGlobalStore';
 import './style.less';
 
@@ -27,9 +27,17 @@ export const provider = reactBridge({
       useGlobalStore.getState().setGlobalState(appInfo.props.globalState);
     }
 
+    // 注册 router
+    const router = createBrowserRouter(routes, {
+      basename: appInfo?.props.globalState.basename,
+    });
     // 使用 ConfigProvider 包裹路由，并设置专属的 CSS 前缀和独立的 cssVar
     return (
-      <ConfigProvider prefixCls={MICRO_PREFIX_CLS} theme={{ cssVar: { key: 'micro-app' }, hashed: false }} mode="dark">
+      <ConfigProvider
+        prefixCls={MICRO_PREFIX_CLS}
+        theme={{ cssVar: { key: 'micro-app' }, hashed: false }}
+        themeMode="gold-dark"
+      >
         <RouterProvider router={router} />
       </ConfigProvider>
     );
@@ -39,6 +47,11 @@ export const provider = reactBridge({
 
 // src/main.js
 if (!window.__GARFISH__) {
+  // 注册 router
+  const router = createBrowserRouter(routes, {
+    basename: '/',
+  });
+
   // 同步主题模式到全局 store
   useGlobalStore.getState().setGlobalState({ themeMode: 'dark' });
 
@@ -46,7 +59,7 @@ if (!window.__GARFISH__) {
     <ConfigProvider
       prefixCls={MICRO_PREFIX_CLS}
       theme={{ cssVar: { key: 'micro-app' }, hashed: false }}
-      mode="dark"
+      themeMode="gold-dark"
     >
       <RouterProvider router={router} />
     </ConfigProvider>,

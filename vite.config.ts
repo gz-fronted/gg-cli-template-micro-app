@@ -3,7 +3,7 @@ import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import babel from '@rolldown/plugin-babel';
 import path from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
-import garfishPlugin from 'vite-plugin-garfish-mf';
+// import garfishPlugin from 'vite-plugin-garfish-mf';
 // import cdn from 'vite-plugin-cdn-import'
 
 // https://vite.dev/config/
@@ -21,9 +21,9 @@ export default defineConfig(({ mode }) => {
     // 其他配置...
     plugins: [
       react(),
-      garfishPlugin({
-        base: 'http://localhost:3001',
-      }),
+      // garfishPlugin({
+      //   base: 'http://localhost:3001',
+      // }),
       // 暂时注释 CDN 抽离配置，因为内网环境暂不支持
       /*
       cdn({
