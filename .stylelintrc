@@ -1,0 +1,10 @@
+{
+  "extends": ["stylelint-config-standard-less", "stylelint-config-recess-order"],
+  "ignoreFiles": ["**/dist/**", "**/coverage/**", "**/node_modules/**"],
+  "rules": {
+    "alpha-value-notation": null,
+    "color-function-notation": null,
+    "custom-property-pattern": null,
+    "selector-class-pattern": null
+  }
+}
