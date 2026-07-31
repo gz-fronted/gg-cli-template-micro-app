@@ -5,19 +5,25 @@
 ```text
 ├── .env.development
 ├── .env.test
+├── .env.sit
 ├── .env.production
-├── .eslintrc.cjs
+├── .commitlintrc
+├── .stylelintrc
 ├── .prettierrc
 ├── .editorconfig
+├── eslint.config.js
 ├── package.json
 ├── tsconfig.json
 ├── tsconfig.app.json
 ├── tsconfig.node.json
 ├── vite.config.ts
 ├── index.html
+├── AGENTS.md
 ├── docs
 └── src/
 ```
+
+根目录结构以当前模板为准。功能目录可以按需创建，不要求保留空目录。
 
 ## 2. src 目录
 
@@ -26,15 +32,15 @@ src/
 ├── api/
 ├── assets/
 ├── components/
-├── hooks/
+├── hooks/（按需创建）
 ├── layouts/
 ├── pages/
 ├── router/
 ├── store/
-├── types/
+├── types/（按需创建）
 ├── utils/
 ├── main.tsx
-├── App.tsx
+├── App.tsx（按需创建）
 └── vite-env.d.ts
 ```
 

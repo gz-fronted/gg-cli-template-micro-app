@@ -1,7 +1,7 @@
 import { Typography } from 'antd';
 import { useGlobalStore } from '@/store/useGlobalStore';
 import { Button } from '@chenhui996/gg-ui';
-import './index.less';
+import styles from './index.module.less';
 
 const { Title } = Typography;
 
@@ -16,14 +16,15 @@ const WelcomeHeader = () => {
 
   console.log('[micro-app user]', user);
   console.log('[micro-app token]', token);
-  
+
   const displayName = user?.name || '游客';
   const roleInfo = user?.dept ? `[${user.dept}] ` : '';
 
   return (
-    <div className="welcome-header">
-      <Title level={2} style={{ color: '#fff'}}>
-        您好，{roleInfo}{displayName}，您已正常启动一个【子应用】
+    <div className={styles.welcomeHeader}>
+      <Title level={2} style={{ color: '#fff' }}>
+        您好，{roleInfo}
+        {displayName}，您已正常启动一个【子应用】
         <Button>去任务列表</Button>
       </Title>
     </div>
@@ -32,7 +33,7 @@ const WelcomeHeader = () => {
 
 export default function Home() {
   return (
-    <div className="home-page">
+    <div className={styles.homePage}>
       <WelcomeHeader />
     </div>
   );
