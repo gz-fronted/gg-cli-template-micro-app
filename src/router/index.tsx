@@ -3,32 +3,17 @@
  * 采用对象配置模式，便于管理和扩展
  */
 import { lazy, Suspense, type ComponentType, type LazyExoticComponent } from 'react';
-import { Spin } from 'antd';
+import RouteLoading from '@/components/RouteLoading';
 import BasicLayout from '@/layouts/BasicLayout';
 
 // 路由懒加载配置
 const Home = lazy(() => import('@/pages/home'));
 const NotFound = lazy(() => import('@/pages/404'));
 
-// 全局 Loading 组件
-const Loading = () => (
-  <div
-    style={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      height: '100%',
-      minHeight: 400,
-    }}
-  >
-    <Spin size="large" />
-  </div>
-);
-
 // 包装懒加载组件，统一添加 Suspense
-function withSuspense(Component: LazyExoticComponent<ComponentType<any>>) {
+function withSuspense(Component: LazyExoticComponent<ComponentType>) {
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<RouteLoading />}>
       <Component />
     </Suspense>
   );

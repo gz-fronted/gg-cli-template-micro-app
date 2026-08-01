@@ -6,7 +6,7 @@ export interface UserInfo {
   dept: string;
 }
 
-interface GlobalState {
+export interface GlobalState {
   user: UserInfo | null;
   token: string | null;
   themeMode: 'light' | 'dark';

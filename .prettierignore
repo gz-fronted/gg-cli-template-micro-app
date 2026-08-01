@@ -3,6 +3,7 @@ node_modules
 dist
 build
 coverage
+public/mockServiceWorker.js
 
 # 二进制与媒体文件
 *.png

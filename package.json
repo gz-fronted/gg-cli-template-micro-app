@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --mode development",
+    "mock": "vite --mode mock",
     "build:test": "tsc -b && vite build --mode test",
     "build:prod": "tsc -b && vite build --mode production",
     "build:dev": "tsc -b && vite build --mode development",
@@ -15,6 +16,7 @@
     "test:coverage": "vitest run --coverage",
     "analyze": "cross-env ANALYZE=true npm run build:prod",
     "lint": "eslint .",
+    "typecheck": "tsc -b",
     "lint:style": "stylelint \"src/**/*.{css,less}\"",
     "lint:style:fix": "npm run lint:style -- --fix",
     "lint:staged": "lint-staged",
@@ -37,13 +39,13 @@
   "dependencies": {
     "@ag-grid-community/locale": "^36.0.1",
     "@ant-design/icons": "^6.1.0",
-    "@chenhui996/gg-ui": "0",
+    "@chenhui996/gg-ui": "0.1.2",
     "@garfish/bridge-react-v18": "^1.19.8",
+    "@gz-fronted/gz-pc": "0.1.0",
     "ag-grid-community": "^36.0.1",
     "ag-grid-enterprise": "^36.0.1",
     "ag-grid-react": "^36.0.1",
     "antd": "^6.3.3",
-    "axios": "^1.13.6",
     "echarts": "^6.0.0",
     "echarts-for-react": "^3.0.6",
     "react": "^19.2.4",
@@ -77,6 +79,7 @@
     "jsdom": "^29.0.2",
     "less": "^4.6.4",
     "lint-staged": "^16.4.0",
+    "msw": "2.15.0",
     "prettier": "^3.8.1",
     "rollup-plugin-visualizer": "^7.0.1",
     "stylelint": "^17.14.1",
@@ -90,5 +93,10 @@
     "vite-plugin-cdn-import": "^1.0.1",
     "vite-plugin-garfish-mf": "^1.0.4",
     "vitest": "^4.1.4"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
