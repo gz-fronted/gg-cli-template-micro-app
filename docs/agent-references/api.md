@@ -8,22 +8,26 @@
 - 所有接口必须定义请求参数和返回结果的 TypeScript 类型。
 - 公共 API 函数应显式声明返回类型。
 
-## 2. 统一响应体
+## 2. 请求基础设施
 
-在请求层定义统一响应体泛型，例如：
+- 业务项目默认使用 `@gz-fronted/gz-pc/fetch`。
+- 请求客户端只在应用启动阶段进行一次必要配置，业务模块不得重复创建请求实例。
+- 页面组件不得直接使用 Axios，也不得自行重复维护请求拦截器和错误转换。
+- 后端是否包含统一业务响应体、是否需要解包，以接口契约为准，不得自行假设。
 
-```ts
-interface ApiResponse<T> {
-  code: string;
-  message: string;
-  data: T;
-}
+## 3. React 请求状态
+
+组件和自定义 Hook 默认使用 `@gz-fronted/gz-pc/hooks` 导出的 `useRequest` 管理
+loading、data、error、取消、轮询和防抖等请求状态。
+
+操作类接口必须把对应 loading 传递给触发按钮，避免重复提交。不同操作使用各自独立的
+loading 状态。
+
+## 4. gzFetch 与 Mock
+
+初始化、Token 注入、配置对象式调用、参数映射、响应错误、声明式 Mock 和 AI 生成规则
+统一见：
+
+```text
+docs/agent-references/gz-fetch-and-mock.md
 ```
-
-具体字段以后端最终接口约定为准。
-
-## 3. 请求基础设施
-
-- Axios 二次封装放在 `src/utils/request/`。
-- 请求封装包括拦截器配置和统一错误处理。
-- 页面组件不得直接重复实现 Axios 配置。

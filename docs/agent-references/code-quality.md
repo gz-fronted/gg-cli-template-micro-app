@@ -12,6 +12,7 @@
 ```bash
 # TypeScript / React
 npm run lint
+npm run typecheck
 
 # Less / CSS
 npm run lint:style

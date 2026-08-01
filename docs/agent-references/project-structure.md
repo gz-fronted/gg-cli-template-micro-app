@@ -4,6 +4,7 @@
 
 ```text
 ├── .env.development
+├── .env.mock
 ├── .env.test
 ├── .env.sit
 ├── .env.production
@@ -20,6 +21,7 @@
 ├── index.html
 ├── AGENTS.md
 ├── docs
+├── mock/（按需创建）
 └── src/
 ```
 
@@ -31,6 +33,8 @@
 src/
 ├── api/
 ├── assets/
+├── bootstrap/（按需创建）
+├── config/（按需创建）
 ├── components/
 ├── hooks/（按需创建）
 ├── layouts/
@@ -60,9 +64,14 @@ src/
 ### components/
 
 - 存放跨页面复用的公共组件。
-- 每个组件使用独立目录。
+- 每个组件使用独立目录，目录名使用 PascalCase，如 `UserProfile/`。
 - 入口文件使用 `index.tsx`。
 - 样式优先使用 `index.module.less`。
+
+### config/
+
+- 存放与业务无关的应用级默认配置。
+- 不得把业务枚举、接口数据或页面列定义放入该目录。
 
 ### hooks/
 
@@ -78,7 +87,7 @@ src/
 ### pages/
 
 - 存放与路由直接对应的页面。
-- 按功能模块划分目录。
+- 按功能模块划分目录，页面目录名使用小写中划线（kebab-case），如 `audit-log/`。
 - 页面私有组件、Hooks、Store 和工具方法遵循就近原则。
 - 页面入口统一使用 `index.tsx`。
 - 页面样式优先使用 `index.module.less`。
@@ -103,4 +112,10 @@ src/
 ### utils/
 
 - 存放通用工具函数和基础设施。
-- `request/` 用于 Axios 二次封装。
+- 不得在业务项目中重复实现 gzFetch 已提供的请求基础设施。
+
+### mock/
+
+- 根目录 `mock/` 存放声明式接口 Mock 配置和 Mock 数据。
+- `src/mock/` 只存放通用 Mock Runtime，不存放业务 Mock 数据。
+- Mock 文件按业务接口模块划分，Key 使用 `/pathname.method`。

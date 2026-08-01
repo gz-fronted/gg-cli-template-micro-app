@@ -30,8 +30,12 @@ export const UserCard: React.FC<UserCardProps> = (props) => {
 
 ### 1.2 命名规范
 
-- 组件文件命名：使用 PascalCase，如 `UserProfile.tsx`。
-- 如果组件是一个目录，使用 pascal-case（短横线命名法），入口文件使用 `index.tsx`。
+- 路由页面目录使用小写中划线（kebab-case），如 `audit-log/`、`user-center/`。
+- React 组件文件使用 PascalCase，如 `UserProfile.tsx`。
+- React 组件目录使用 PascalCase，如 `UserProfile/`、`SearchForm/`，入口文件使用
+  `index.tsx`。
+- 页面目录和组件目录必须按职责区分，不得把页面目录写成 PascalCase，也不得把组件
+  目录写成小写中划线。
 - 组件内部变量和函数使用 camelCase。
 - 传递给组件的事件 Props 命名为 `onXxx`。
 - 组件内部事件处理函数命名为 `handleXxx`。

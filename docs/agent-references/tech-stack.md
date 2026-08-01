@@ -6,7 +6,7 @@
 - 前端语言：TypeScript / v5
 - 路由：React Router（hash 或 history） / v7
 - 状态管理：Zustand / v5
-- 网络请求：Axios / v1
+- 网络请求：`@gz-fronted/gz-pc`
 - 样式：Less / v4
 - 构建工具：Vite / v8
 - 微前端：Garfish
