@@ -16,14 +16,14 @@ export default function BasicLayout() {
   }, [themeMode]);
   return (
     <div
-      className="micro-app-container"
+      className="{{ projectName }}-container"
       style={{
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
         height: '100%',
         minHeight: 0,
-        backgroundColor: 'var(--bg-body)',
+        backgroundColor: '#141414',
         borderRadius: 8,
       }}
     >
