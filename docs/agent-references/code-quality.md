@@ -20,14 +20,15 @@ npm run lint:style
 # 格式检查
 npm run format:check
 
-# 单元测试
-npm run test
+# 单元测试（单次执行）
+npm run test -- --run
 
 # 生产构建
 npm run build
 ```
 
-提交暂存文件时，Husky 和 lint-staged 会自动执行增量检查；这不能替代开发完成后的相关测试和构建验证。
+提交暂存文件时，Husky 和 lint-staged 会自动执行增量检查；这不能替代开发完成后的相关
+测试和构建验证。只执行与改动范围相关的命令；未执行项必须说明原因。
 
 ## 提交信息
 

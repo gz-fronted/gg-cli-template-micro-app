@@ -22,6 +22,8 @@
 ├── AGENTS.md
 ├── docs
 ├── mock/（按需创建）
+├── rules/（按需创建）
+├── skills/（按需创建）
 └── src/
 ```
 
@@ -87,7 +89,7 @@ src/
 ### pages/
 
 - 存放与路由直接对应的页面。
-- 按功能模块划分目录，页面目录名使用小写中划线（kebab-case），如 `audit-log/`。
+- 按功能模块划分目录，页面目录名使用小写中划线（kebab-case），如 `order-list/`。
 - 页面私有组件、Hooks、Store 和工具方法遵循就近原则。
 - 页面入口统一使用 `index.tsx`。
 - 页面样式优先使用 `index.module.less`。
@@ -119,3 +121,10 @@ src/
 - 根目录 `mock/` 存放声明式接口 Mock 配置和 Mock 数据。
 - `src/mock/` 只存放通用 Mock Runtime，不存放业务 Mock 数据。
 - Mock 文件按业务接口模块划分，Key 使用 `/pathname.method`。
+
+### rules/ 与 skills/
+
+- `rules/` 存放需要由 `AGENTS.md` 明确加载的项目级硬规则。
+- `skills/` 存放可复用的专项工作流、诊断经验和必要资源。
+- 独立规则文件和项目级 Skill 不会替代 `AGENTS.md`；必须在 `AGENTS.md` 对应任务路由中引用。
+- 不把单个页面、接口或业务枚举写入通用 Skill。

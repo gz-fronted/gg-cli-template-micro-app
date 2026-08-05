@@ -21,6 +21,7 @@
 ## 工程能力
 
 - ESLint、Stylelint、Prettier 代码质量检查
+- 初始化时使用项目名称作为组件样式前缀和 CSS 变量 key
 - commitlint 提交信息校验
 - Husky、lint-staged 提交前增量检查
 - development、test、sit、production 多环境构建
@@ -158,8 +159,11 @@ VITE_API_SERVER=http://172.16.31.76:8599
 - 未匹配 Mock 的请求放行到真实接口。
 - Mock Runtime 的 Store 与 Zustand 无关，只用于模拟接口连续状态。
 
-完整规范见
-[gz-fetch-and-mock.md](./docs/agent-references/gz-fetch-and-mock.md)。
+完整规范见：
+
+- [gz-fetch.md](./docs/agent-references/gz-fetch.md)
+- [mock.md](./docs/agent-references/mock.md)
+- [mock-runtime.md](./docs/agent-references/mock-runtime.md)（仅维护 Runtime 时读取）
 
 ## 目录结构
 

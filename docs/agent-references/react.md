@@ -30,7 +30,7 @@ export const UserCard: React.FC<UserCardProps> = (props) => {
 
 ### 1.2 命名规范
 
-- 路由页面目录使用小写中划线（kebab-case），如 `audit-log/`、`user-center/`。
+- 路由页面目录使用小写中划线（kebab-case），如 `order-list/`、`user-center/`。
 - React 组件文件使用 PascalCase，如 `UserProfile.tsx`。
 - React 组件目录使用 PascalCase，如 `UserProfile/`、`SearchForm/`，入口文件使用
   `index.tsx`。

@@ -2,21 +2,16 @@
 
 ## 项目说明
 
-本项目采用 React、TypeScript、Vite 和 Garfish 技术栈开发。
+本项目采用 React、TypeScript、Vite 和 Garfish 技术栈开发。实际依赖版本以
+`package.json` 和锁文件为准。
 
-开发时必须遵循团队前端规范。详细规范位于：
-
-```text
-docs/agent-references/
-```
-
-开始任务前，先阅读：
+开发时必须遵循 `docs/agent-references/` 中的团队前端规范。开始任务前先阅读：
 
 ```text
 docs/agent-references/index.md
 ```
 
-再根据当前任务类型加载对应规范，不要一次性加载全部规范。
+再根据任务类型加载对应规范，不要一次性加载全部文档。
 
 ## 基础技术栈
 
@@ -25,15 +20,15 @@ docs/agent-references/index.md
 - React Router 7
 - Zustand 5
 - `@gz-fronted/gz-pc`
+- `@chenhui996/gg-ui`
+- Ant Design 6（仅在 gg-ui 缺少所需能力时使用）
+- AG Grid React Enterprise
 - Less 4
 - Vite 8
 - Garfish
-- `@chenhui996/gg-ui`
-- AG Grid React Enterprise
-- ECharts
-- KLineChart
+- ECharts / KLineChart
 
-完整说明见：
+完整选型见：
 
 ```text
 docs/agent-references/tech-stack.md
@@ -42,19 +37,31 @@ docs/agent-references/tech-stack.md
 ## 基础开发要求
 
 - 统一使用函数组件和 React Hooks。
-- 使用 TypeScript，并尽可能提供准确类型。
-- 默认使用 `@chenhui996/gg-ui` 作为业务组件库。
-- 当 gg-ui 暂未提供所需组件时，允许使用 Ant Design 6。
-- 默认使用 AG Grid React Enterprise 实现业务表格。
-- 不得使用其他表格组件替代 AG Grid，除非需求明确不适用或已有项目实现要求保留。
-- 遵守项目 ESLint 和 Prettier 规则。
-- 不保留未使用的变量或导入。
-- 避免使用 `any` 规避类型问题。
-- 页面、组件、接口、状态和工具代码应按项目目录规范放置。
-- 开发前应先阅读与当前任务直接相关的规范文件。
-- 规范未覆盖的内容，以现有项目实现和需求说明为准。
+- 使用 TypeScript，并提供准确的请求、响应、Props 和状态类型。
+- 默认使用 `@chenhui996/gg-ui`；只有 gg-ui 缺少所需能力时才使用 Ant Design。
+- 常规业务表格默认使用 AG Grid Enterprise，不得为了省事替换为其他 Table。
+- 遵守项目 ESLint、Stylelint 和 Prettier 规则。
+- 不保留未使用的变量或导入，不使用 `any` 规避类型问题。
+- 页面、组件、接口、状态、Mock 和工具代码按项目目录规范放置。
+- 开发前检查现有实现、产品文档、接口文档和 UI 设计稿；不得虚构业务定义。
+- 只修改任务范围内的文件，保留工作区中已有且无关的用户改动。
 
 ## 规范加载规则
+
+### 业务需求开发
+
+阅读：
+
+```text
+docs/agent-references/requirements.md
+docs/agent-references/agent-workflow.md
+```
+
+如果任务涉及错题本中已有的重复问题，再读取：
+
+```text
+docs/agent-references/agent-mistakes.md
+```
 
 ### React 组件或 Hooks 开发
 
@@ -71,54 +78,20 @@ docs/agent-references/typescript.md
 
 ```text
 docs/agent-references/state-management.md
+docs/agent-references/typescript.md
 ```
 
-### 产品需求和业务边界
-
-开发业务需求时，必须阅读：
-
-```text
-docs/agent-references/requirements.md
-```
-
-### 个人开发规范
-
-开发业务需求时，同时阅读：
-
-```text
-docs/agent-references/personal-development.md
-```
-
-如果任务涉及已有重复错误，还必须阅读：
-
-```text
-docs/agent-references/agent-mistakes.md
-```
-
-`personal-development.md` 用于保留开发者的个人习惯和补充实践；团队强制业务规则仍以
-`requirements.md` 等公共规范为准。`agent-mistakes.md` 在模板初始化时保持为空，只有
-出现符合记录条件的重复问题时才写入。
-
-### 样式开发
+### UI、表单、样式或视觉还原
 
 阅读：
-
-```text
-docs/agent-references/styling.md
-```
-
-### UI、表单或表格视觉开发
-
-页面、表单、表格或视觉还原相关任务必须阅读：
 
 ```text
 docs/agent-references/ui.md
 docs/agent-references/styling.md
 ```
 
-开始编码前，必须先从产品文档和 UI 设计稿中提取本次任务相关的尺寸、间距、颜色、
-圆角、滚动、交互状态和组件约束。开发完成后，必须结合实际运行页面逐项核对，不得只
-验证功能。
+编码前必须提取本次任务相关的尺寸、间距、颜色、圆角、滚动、交互状态和组件约束；
+完成后必须结合实际运行页面逐项核对，不得只验证功能。
 
 ### API 请求和类型开发
 
@@ -126,23 +99,35 @@ docs/agent-references/styling.md
 
 ```text
 docs/agent-references/api.md
-docs/agent-references/gz-fetch-and-mock.md
+docs/agent-references/gz-fetch.md
 docs/agent-references/typescript.md
 ```
 
-### Mock 数据或 Mock Runtime 开发
+### 业务 Mock 开发
 
 阅读：
 
 ```text
-docs/agent-references/gz-fetch-and-mock.md
+docs/agent-references/mock.md
 docs/agent-references/api.md
+docs/agent-references/requirements.md
 docs/agent-references/typescript.md
 docs/agent-references/project-structure.md
 ```
 
-获得接口文档后，默认根据接口定义生成对应的 Mock 配置和代表性数据，不要求开发者
-重复编写 MSW Handler。只有产品语义、字段关联或状态变化无法从文档确认时才询问。
+获得接口文档后，默认生成声明式 Mock 配置和代表性数据，不要求开发者手写 MSW
+Handler。只有产品语义、字段关联、敏感数据或状态变化无法确认时才询问。
+
+### Mock Runtime 开发
+
+只有修改通用 Mock Runtime、MSW 集成或相关测试时才阅读：
+
+```text
+docs/agent-references/mock-runtime.md
+docs/agent-references/mock.md
+docs/agent-references/typescript.md
+docs/agent-references/code-quality.md
+```
 
 ### 新增页面、组件或调整目录
 
@@ -154,7 +139,7 @@ docs/agent-references/project-structure.md
 
 ### AG Grid 表格开发
 
-阅读：
+阅读并遵循：
 
 ```text
 docs/agent-references/ag-grid.md
@@ -163,21 +148,21 @@ docs/agent-references/ui.md
 docs/agent-references/styling.md
 ```
 
-### 工程配置或脚手架相关开发
+### 工程配置或脚手架调整
 
 阅读：
 
 ```text
 docs/agent-references/tooling.md
 docs/agent-references/code-quality.md
+docs/agent-references/project-structure.md
 ```
 
 ## 开发完成检查
 
-开发完成后，应确保：
-
-- 没有 ESLint 警告或错误。
-- 没有未使用的变量或导入。
-- 没有为了规避问题而随意使用 `any`。
+- 没有 ESLint 或 Stylelint 警告和错误。
+- TypeScript 类型检查通过，没有为规避问题新增 `any`。
 - 新增接口均定义入参和返回类型。
-- 新增代码符合对应目录和命名规范。
+- 新增代码符合目录、命名和作用域规范。
+- 功能、异常、边界、滚动和视觉状态按改动范围验证。
+- 执行 `code-quality.md` 中与本次改动相关的检查命令，并如实说明未执行项及原因。
