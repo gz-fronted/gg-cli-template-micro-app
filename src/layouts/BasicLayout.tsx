@@ -1,5 +1,3 @@
-import { useGlobalStore } from '@/store/useGlobalStore';
-import { useLayoutEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
 /**
@@ -9,11 +7,6 @@ import { Outlet } from 'react-router-dom';
  * 它只需要作为一个纯粹的视图容器，将自身的路由内容渲染到主应用的 Content 区域中。
  */
 export default function BasicLayout() {
-  const themeMode = useGlobalStore((state) => state.themeMode);
-
-  useLayoutEffect(() => {
-    document.documentElement.setAttribute('data-theme', themeMode);
-  }, [themeMode]);
   return (
     <div
       className="{{ projectName }}-container"
@@ -23,7 +16,7 @@ export default function BasicLayout() {
         width: '100%',
         height: '100%',
         minHeight: 0,
-        backgroundColor: '#141414',
+        backgroundColor: 'var(--gz-color-bg-layout)',
         borderRadius: 8,
       }}
     >

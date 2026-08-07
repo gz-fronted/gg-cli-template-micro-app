@@ -1,12 +1,12 @@
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { reactBridge, type PropsInfo } from '@garfish/bridge-react-v18';
-import { ConfigProvider } from 'gz-ui';
-import zhCN from 'antd/locale/zh_CN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import { configureRequest } from '@/bootstrap/configure-request';
 import { enableMock } from '@/bootstrap/enable-mock';
+import AppThemeProvider from '@/components/AppThemeProvider';
+import { readStoredThemeMode, resolveThemeMode } from '@/config/theme';
 import { routes } from '@/router';
 import { useGlobalStore, type GlobalState } from '@/store/useGlobalStore';
 import './style.less';
@@ -22,32 +22,29 @@ if (!window.__GARFISH__) {
   import('antd/dist/reset.css');
 }
 
-// 初始化项目时由 gg-cli 替换，避免多个微应用的组件样式互相覆盖。
-const MICRO_PREFIX_CLS = '{{ projectName }}';
-
+// 主题 Provider 内的 cssVarScope 会由 gg-cli 使用项目名替换，隔离多个微应用的组件变量。
 interface ApplicationRootProps {
+  applyCssVariables?: boolean;
   basename: string;
+  showLocalSwitcher?: boolean;
 }
 
 interface GarfishCustomProps {
-  globalState?: Partial<Pick<GlobalState, 'user' | 'token' | 'themeMode'>>;
+  globalState?: Partial<Pick<GlobalState, 'user' | 'token'>> & {
+    themeMode?: unknown;
+  };
+  themeMode?: unknown;
 }
 
 // 独立运行和 Garfish 挂载共用同一个应用根组件。
 const ApplicationRoot: React.FC<ApplicationRootProps> = (props) => {
-  const { basename } = props;
+  const { applyCssVariables = false, basename, showLocalSwitcher = false } = props;
   const router = createBrowserRouter(routes, { basename });
 
   return (
-    <ConfigProvider
-      button={{ autoInsertSpace: false }}
-      locale={zhCN}
-      prefixCls={MICRO_PREFIX_CLS}
-      theme={{ cssVar: { key: MICRO_PREFIX_CLS }, hashed: false }}
-      themeMode="gold-dark"
-    >
+    <AppThemeProvider applyCssVariables={applyCssVariables} showLocalSwitcher={showLocalSwitcher}>
       <RouterProvider router={router} />
-    </ConfigProvider>
+    </AppThemeProvider>
   );
 };
 
@@ -55,9 +52,13 @@ const ApplicationRoot: React.FC<ApplicationRootProps> = (props) => {
 export const provider = reactBridge({
   el: '#root',
   loadRootComponent: async (appInfo: PropsInfo) => {
-    const { globalState } = appInfo.props as GarfishCustomProps;
+    const { globalState, themeMode } = appInfo.props as GarfishCustomProps;
     if (globalState) {
-      useGlobalStore.getState().setGlobalState(globalState);
+      const { themeMode: globalThemeMode, ...sharedState } = globalState;
+      useGlobalStore.getState().setGlobalState(sharedState);
+      useGlobalStore.getState().setThemeMode(resolveThemeMode(themeMode ?? globalThemeMode));
+    } else {
+      useGlobalStore.getState().setThemeMode(resolveThemeMode(themeMode));
     }
 
     await enableMock();
@@ -69,9 +70,9 @@ export const provider = reactBridge({
 // 独立运行入口：从本地缓存初始化 Token，不依赖 Garfish 主应用。
 const bootstrapStandalone = async (): Promise<void> => {
   useGlobalStore.getState().setGlobalState({
-    themeMode: 'dark',
     token: window.localStorage.getItem('token'),
   });
+  useGlobalStore.getState().setThemeMode(readStoredThemeMode());
   await enableMock();
 
   const rootElement = document.getElementById('root');
@@ -79,7 +80,13 @@ const bootstrapStandalone = async (): Promise<void> => {
     throw new Error('应用根节点不存在');
   }
 
-  createRoot(rootElement).render(<ApplicationRoot basename="/" />);
+  createRoot(rootElement).render(
+    <ApplicationRoot
+      applyCssVariables
+      basename="/"
+      showLocalSwitcher={import.meta.env.DEV && Boolean(localStorage.getItem('showThemeSwitcher'))}
+    />,
+  );
 };
 
 if (!window.__GARFISH__) {

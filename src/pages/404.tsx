@@ -12,7 +12,7 @@ export default function NotFound() {
     <div
       style={{
         height: '100%',
-        background: '#000',
+        background: 'var(--gz-color-bg-layout)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -20,9 +20,9 @@ export default function NotFound() {
     >
       <Result
         status="404"
-        title={<span style={{ color: '#fff' }}>404</span>}
+        title={<span style={{ color: 'var(--gz-color-text)' }}>404</span>}
         subTitle={
-          <span style={{ color: 'rgba(255, 255, 255, 0.65)' }}>
+          <span style={{ color: 'var(--gz-color-text-secondary)' }}>
             抱歉，您访问的页面不存在。
           </span>
         }

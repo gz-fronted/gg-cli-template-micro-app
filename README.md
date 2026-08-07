@@ -21,7 +21,8 @@
 ## 工程能力
 
 - ESLint、Stylelint、Prettier 代码质量检查
-- 初始化时使用项目名称作为组件样式前缀和 CSS 变量 key
+- 初始化时使用项目名称作为组件样式前缀和稳定的 `cssVarScope`
+- 内置 GZ UI 四主题初始化、本地开发主题切换和业务 CSS Token Variables
 - commitlint 提交信息校验
 - Husky、lint-staged 提交前增量检查
 - development、test、sit、production 多环境构建
@@ -176,6 +177,7 @@ src/
 ├── bootstrap/                 # 请求与 Mock 启动配置
 ├── config/                    # 应用级通用默认配置
 ├── components/                # 跨页面公共组件
+│   ├── AppThemeProvider/      # 主题 Provider 和本地开发切换器
 │   ├── Chart/
 │   ├── ErrorBoundary/
 │   └── RouteLoading/
@@ -200,12 +202,31 @@ src/
 ### 独立运行
 
 当 `window.__GARFISH__` 不存在时，`src/main.tsx` 会直接创建 React Root，并使用 `/` 作为路由 basename。
-独立运行时会先将 localStorage 中的 Token 初始化到 Zustand Store。
+独立运行时会先将 localStorage 中的 Token 和 `{{ projectName }}.theme-mode` 初始化到 Zustand Store，
+并调用 `applyDesignTokenCssVariables` 将业务变量写入 `document.documentElement`。主题切换器使用懒加载，
+只有在本地开发或 Mock 模式下，并且 localStorage 中的 `showThemeSwitcher` 为非空时才加载并展示；
+Garfish 和正式构建不会加载。
+
+本地启用后刷新页面：
+
+```js
+localStorage.setItem('showThemeSwitcher', '1');
+location.reload();
+```
+
+切换器支持 `gold-dark`、`gold-light`、`blue-dark`、`blue-light` 四套主题。
+
+业务 Less/CSS 使用 `--gz-*` 语义变量，例如 `--gz-color-bg-layout`、`--gz-color-text`。
+完整变量应以 [GZ UI Tokens 表](https://gz-ui-cyan.vercel.app/tokens) 为准。
 
 ### Garfish 子应用
 
 当应用由 Garfish 加载时，入口通过 `@garfish/bridge-react-v18` 导出 `provider`，主应用可通过 `appInfo.props.globalState` 传递路由 basename、主题等全局状态。
-Garfish 模式下主应用 Token 会同步到同一个 Store，gzFetch 始终只从 Store 读取 Token。
+主题优先读取 `appInfo.props.themeMode`，兼容读取 `appInfo.props.globalState.themeMode`；非法值回退到
+`gold-dark`。Garfish 模式下由主应用调用 `applyDesignTokenCssVariables`，子应用不会覆盖或清理主应用维护的
+`--gz-*` 变量。gzFetch 始终只从 Store 读取 Token。
+
+主题接入与变量生成规则见 [主题与 Design Token](https://gz-ui-cyan.vercel.app/training/04-theme-and-tokens)。
 
 修改微应用入口后，应同时验证：
 

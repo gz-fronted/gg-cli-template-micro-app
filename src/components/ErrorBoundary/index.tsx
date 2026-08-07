@@ -55,9 +55,7 @@ export class ErrorBoundary extends Component<Props, State> {
           status="500"
           title="抱歉，页面加载出错了"
           subTitle={
-            import.meta.env.DEV
-              ? this.state.error?.message
-              : "我们正在努力修复此问题，请稍后再试。"
+            import.meta.env.DEV ? this.state.error?.message : '我们正在努力修复此问题，请稍后再试。'
           }
           extra={
             <Button type="primary" onClick={this.handleReset}>
@@ -69,7 +67,7 @@ export class ErrorBoundary extends Component<Props, State> {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            background: '#fff',
+            background: 'var(--gz-color-bg-container)',
             borderRadius: 8,
             margin: 24,
           }}

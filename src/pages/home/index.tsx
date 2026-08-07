@@ -22,7 +22,7 @@ const WelcomeHeader = () => {
 
   return (
     <div className={styles.welcomeHeader}>
-      <Title level={2} style={{ color: '#fff' }}>
+      <Title level={2} style={{ color: 'var(--gz-color-text)' }}>
         您好，{roleInfo}
         {displayName}，您已正常启动一个【子应用】
         <Button>去任务列表</Button>
