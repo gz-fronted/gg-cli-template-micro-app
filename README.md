@@ -203,9 +203,8 @@ src/
 
 当 `window.__GARFISH__` 不存在时，`src/main.tsx` 会直接创建 React Root，并使用 `/` 作为路由 basename。
 独立运行时会先将 localStorage 中的 Token 和 `{{ projectName }}.theme-mode` 初始化到 Zustand Store，
-并调用 `applyDesignTokenCssVariables` 将业务变量写入 `document.documentElement`。主题切换器使用懒加载，
-只有在本地开发或 Mock 模式下，并且 localStorage 中的 `showThemeSwitcher` 为非空时才加载并展示；
-Garfish 和正式构建不会加载。
+并调用 `applyDesignTokenCssVariables` 将业务变量写入 `document.documentElement`。只有在本地开发或 Mock
+模式下，并且 localStorage 中的 `showThemeSwitcher` 为非空时，才展示主题切换器；Garfish 和正式构建不展示。
 
 本地启用后刷新页面：
 
