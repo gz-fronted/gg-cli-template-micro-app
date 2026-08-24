@@ -24,9 +24,7 @@ if (!window.__GARFISH__) {
 
 // 主题 Provider 内的 cssVarScope 会由 gg-cli 使用项目名替换，隔离多个微应用的组件变量。
 interface ApplicationRootProps {
-  applyCssVariables?: boolean;
   basename: string;
-  showLocalSwitcher?: boolean;
 }
 
 interface GarfishCustomProps {
@@ -38,11 +36,11 @@ interface GarfishCustomProps {
 
 // 独立运行和 Garfish 挂载共用同一个应用根组件。
 const ApplicationRoot: React.FC<ApplicationRootProps> = (props) => {
-  const { applyCssVariables = false, basename, showLocalSwitcher = false } = props;
+  const { basename } = props;
   const router = createBrowserRouter(routes, { basename });
 
   return (
-    <AppThemeProvider applyCssVariables={applyCssVariables} showLocalSwitcher={showLocalSwitcher}>
+    <AppThemeProvider>
       <RouterProvider router={router} />
     </AppThemeProvider>
   );
@@ -56,7 +54,7 @@ export const provider = reactBridge({
     if (globalState) {
       const { themeMode: globalThemeMode, ...sharedState } = globalState;
       useGlobalStore.getState().setGlobalState(sharedState);
-      useGlobalStore.getState().setThemeMode(resolveThemeMode(themeMode ?? globalThemeMode));
+      useGlobalStore.getState().setThemeMode(resolveThemeMode(themeMode, globalThemeMode));
     } else {
       useGlobalStore.getState().setThemeMode(resolveThemeMode(themeMode));
     }
@@ -80,13 +78,7 @@ const bootstrapStandalone = async (): Promise<void> => {
     throw new Error('应用根节点不存在');
   }
 
-  createRoot(rootElement).render(
-    <ApplicationRoot
-      applyCssVariables
-      basename="/"
-      showLocalSwitcher={import.meta.env.DEV && Boolean(localStorage.getItem('showThemeSwitcher'))}
-    />,
-  );
+  createRoot(rootElement).render(<ApplicationRoot basename="/" />);
 };
 
 if (!window.__GARFISH__) {

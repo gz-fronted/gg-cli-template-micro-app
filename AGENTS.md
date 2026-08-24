@@ -40,6 +40,7 @@ docs/agent-references/tech-stack.md
 - 使用 TypeScript，并提供准确的请求、响应、Props 和状态类型。
 - 默认使用 `@chenhui996/gg-ui`；只有 gg-ui 缺少所需能力时才使用 Ant Design。
 - 常规业务表格默认使用 AG Grid Enterprise，不得为了省事替换为其他 Table。
+- 所有业务颜色使用 `--gz-*` 主题 CSS 变量，不得在 Less/CSS 中写死固定颜色值。
 - 遵守项目 ESLint、Stylelint 和 Prettier 规则。
 - 不保留未使用的变量或导入，不使用 `any` 规避类型问题。
 - 页面、组件、接口、状态、Mock 和工具代码按项目目录规范放置。

@@ -6,6 +6,8 @@
 - 除非需求明确不适用或已有实现必须保留，不得替换为其他组件库的 Table。
 - AG Grid License 的注册值和注册位置由项目基础设施维护；普通业务任务只核对，不修改。
 - 所有列定义、回调参数和行数据必须提供准确 TypeScript 类型。
+- AG Grid 颜色、边框和交互状态变量统一查询
+  [AG Grid Table Tokens](https://gz-ui-cyan.vercel.app/tokens/ag-grid-table)，不得自行写死颜色。
 
 ## 公共配置
 
@@ -26,11 +28,8 @@ suppressCellFocus: true
 
 ## 行状态和对齐
 
-模板标准行状态使用基础色 `#FFE7CB`：
-
-- Hover：`rgba(255, 231, 203, 0.15)`。
-- Selected：`rgba(255, 231, 203, 0.12)`。
-- Hover + Selected：`rgba(255, 231, 203, 0.26)`。
+Hover、Selected、Hover + Selected 等行状态必须使用 AG Grid Table Tokens 中对应的主题
+变量，并验证四套主题下的对比度和优先级，不得在业务 Less/CSS 中写固定颜色。
 
 固定列与中心区域同一行的背景必须一致。状态圆点、Tag、按钮和文本在当前行高中垂直
 居中，点击区域不得溢出数据行。

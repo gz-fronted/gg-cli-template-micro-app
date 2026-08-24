@@ -33,7 +33,8 @@
 
 ## 快速开始
 
-项目使用 npm，并通过 `package-lock.json` 锁定依赖。
+模板仓库不提交包管理器 Lock 文件；初始化项目安装依赖时，由用户选择的 npm、pnpm 或
+yarn 自动生成对应 Lock 文件。
 
 ```bash
 npm install
@@ -202,9 +203,16 @@ src/
 ### 独立运行
 
 当 `window.__GARFISH__` 不存在时，`src/main.tsx` 会直接创建 React Root，并使用 `/` 作为路由 basename。
-独立运行时会先将 localStorage 中的 Token 和 `{{ projectName }}.theme-mode` 初始化到 Zustand Store，
-并调用 `applyDesignTokenCssVariables` 将业务变量写入 `document.documentElement`。只有在本地开发或 Mock
-模式下，并且 localStorage 中的 `showThemeSwitcher` 为非空时，才展示主题切换器；Garfish 和正式构建不展示。
+独立运行时会先将 localStorage 中的 Token 和 `{{ projectName }}.theme-mode` 初始化到 Zustand Store。
+
+### 主题切换器与颜色变量
+
+`AppThemeProvider` 在独立运行和 Garfish 模式下都会调用 `applyDesignTokenCssVariables`，将业务变量
+写入 `document.documentElement`。主题切换器仅允许在本地 Vite 开发服务中展示，生产构建始终
+隐藏；开发环境满足以下任一条件时展示：
+
+- localStorage 中的 `showThemeSwitcher` 严格等于 `1`。
+- 当前链接查询参数包含 `themeSwitcher=1`。
 
 本地启用后刷新页面：
 
@@ -213,19 +221,26 @@ localStorage.setItem('showThemeSwitcher', '1');
 location.reload();
 ```
 
+也可以直接通过链接临时启用，不写入本地缓存：
+
+```text
+http://localhost:3001/?themeSwitcher=1
+```
+
 切换器支持 `gold-dark`、`gold-light`、`blue-dark`、`blue-light` 四套主题。
 
-业务 Less/CSS 使用 `--gz-*` 语义变量，例如 `--gz-color-bg-layout`、`--gz-color-text`。
-完整变量应以 [GZ UI Tokens 表](https://gz-ui-cyan.vercel.app/tokens) 为准。
+业务 Less/CSS 的文字、背景、边框、阴影和交互状态颜色必须使用 `--gz-*` 语义变量，
+不得写死 Hex、RGB、RGBA、HSL 或颜色关键字。例如 `--gz-color-bg-layout`、`--gz-color-text`。
+完整变量应以 [GZ UI Tokens 表](https://gz-ui-cyan.vercel.app/tokens) 为准；接入方法参考
+[主题与 Design Token](https://gz-ui-cyan.vercel.app/training/04-theme-and-tokens)，表格主题变量参考
+[AG Grid Table Tokens](https://gz-ui-cyan.vercel.app/tokens/ag-grid-table)。
 
 ### Garfish 子应用
 
 当应用由 Garfish 加载时，入口通过 `@garfish/bridge-react-v18` 导出 `provider`，主应用可通过 `appInfo.props.globalState` 传递路由 basename、主题等全局状态。
 主题优先读取 `appInfo.props.themeMode`，兼容读取 `appInfo.props.globalState.themeMode`；非法值回退到
-`gold-dark`。Garfish 模式下由主应用调用 `applyDesignTokenCssVariables`，子应用不会覆盖或清理主应用维护的
-`--gz-*` 变量。gzFetch 始终只从 Store 读取 Token。
-
-主题接入与变量生成规则见 [主题与 Design Token](https://gz-ui-cyan.vercel.app/training/04-theme-and-tokens)。
+`gold-dark`。子应用监听主应用广播的 `g-theme-change` 事件，并在主题变化时更新 Store 和 `--gz-*`
+变量；卸载时会恢复主应用原有变量。gzFetch 始终只从 Store 读取 Token。
 
 修改微应用入口后，应同时验证：
 

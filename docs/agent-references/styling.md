@@ -7,6 +7,21 @@
 - 设计稿明确的值优先于组件默认样式；稳定团队值应优先沉淀为 Token 或公共配置。
 - 不通过覆盖层、重复边框、额外伪元素或隐藏滚动条掩盖结构问题。
 
+## 主题与颜色
+
+- 可用变量名称和当前值统一查询 [GZ UI Tokens](https://gz-ui-cyan.vercel.app/tokens)。
+- Provider、主题模式、CSS 变量和 JavaScript Token 的接入方式统一参考
+  [主题与 Design Token](https://gz-ui-cyan.vercel.app/training/04-theme-and-tokens)。
+- 所有业务颜色必须使用 GZ UI 提供的 `--gz-*` 语义 CSS 变量，包括文字、背景、边框、
+  阴影、图标以及 Hover、Selected、Disabled 等交互状态。
+- Less/CSS 中不得直接写 `#RGB`、`#RRGGBB`、`rgb()`、`rgba()`、`hsl()`、`hsla()` 或
+  `white`、`black` 等固定颜色值。
+- `transparent` 和 `currentColor` 仅可表达透明或继承当前颜色，不得用于绕过主题变量。
+- 现有 Token 无法表达设计颜色时，先在 Token 页面确认或补充公共语义变量，不在业务页面
+  私自定义固定颜色。
+- Canvas、ECharts、AG Grid 等 JavaScript 配置无法直接使用 CSS 变量时，通过
+  `getDesignTokens({ themeMode })` 获取当前主题 Token，并在主题变化时重新计算。
+
 ## CSS Modules 命名
 
 本地类名和状态类统一使用 camelCase：
@@ -17,7 +32,7 @@
 }
 
 .isActive {
-  color: #fff;
+  color: var(--gz-color-text);
 }
 ```
 

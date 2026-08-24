@@ -35,7 +35,7 @@
 ## 查询表单
 
 - Label 与控件默认间距 `8px`，并保持垂直居中。
-- Label 默认颜色 `rgba(255, 255, 255, 0.65)`。
+- Label 默认颜色使用 `var(--gz-color-text-secondary)`。
 - 普通 Input、Select 和 DatePicker 默认 `160px × 32px`；特殊尺寸来自设计稿。
 - 同一页面同类控件高度保持一致，表单项宽度应有明确规则。
 - 输入框默认 `autoComplete="off"`，除非业务需要浏览器历史记录。
@@ -69,7 +69,7 @@
 ```less
 font-size: 14px;
 font-weight: 500;
-color: rgba(255, 255, 255, 0.85);
+color: var(--gz-color-text);
 ```
 
 ## AG Grid
