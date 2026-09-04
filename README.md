@@ -23,6 +23,7 @@
 - ESLint、Stylelint、Prettier 代码质量检查
 - 初始化时使用项目名称作为组件样式前缀和稳定的 `cssVarScope`
 - 内置 GZ UI 四主题初始化、本地开发主题切换和业务 CSS Token Variables
+- 内置 gzFetch 主题感知的统一错误反馈和全局单例 401 登录失效弹窗
 - commitlint 提交信息校验
 - Husky、lint-staged 提交前增量检查
 - development、test、sit、production 多环境构建
@@ -156,6 +157,10 @@ VITE_API_SERVER=http://172.16.31.76:8599
 
 - API 函数从 `@gz-fronted/gz-pc/fetch` 导入 `gzFetch`。
 - React 组件从 `@gz-fronted/gz-pc/hooks` 导入 `useRequest`。
+- 模板在启动阶段默认开启统一 401 处理，并在主题根节点内挂载
+  `GzFetchFeedbackProvider`；业务页面不需要重复展示错误或挂载弹窗。
+- 401 确认后默认跳转 `/login`；SSO 或由主应用负责登录时，在
+  `src/bootstrap/configure-request.ts` 覆盖 `unauthorized.onUnauthorized` 或 `loginUrl`。
 - `npm run dev` 不加载 Mock；`npm run mock` 在应用渲染前启动 Worker。
 - Mock Key 使用 `/pathname.method`，默认 `status` 为 `200`、`mockTime` 为 `500`。
 - 未匹配 Mock 的请求放行到真实接口。

@@ -1,4 +1,5 @@
 import { applyDesignTokenCssVariables, ConfigProvider, Select, type GZThemeMode } from 'gz-ui';
+import { GzFetchFeedbackProvider } from '@gz-fronted/gz-pc/fetch';
 import zhCN from 'antd/locale/zh_CN';
 import { useEffect, useLayoutEffect, type ReactNode } from 'react';
 import {
@@ -70,19 +71,21 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = (props) => {
       theme={{ hashed: false }}
       themeMode={themeMode}
     >
-      {children}
-      {showThemeSwitcher && (
-        <div className={styles.themeSwitcher}>
-          <span>主题</span>
-          <Select
-            aria-label="切换主题"
-            className={styles.themeSelect}
-            options={[...THEME_MODE_OPTIONS]}
-            value={themeMode}
-            onChange={handleThemeChange}
-          />
-        </div>
-      )}
+      <GzFetchFeedbackProvider>
+        {children}
+        {showThemeSwitcher && (
+          <div className={styles.themeSwitcher}>
+            <span>主题</span>
+            <Select
+              aria-label="切换主题"
+              className={styles.themeSelect}
+              options={[...THEME_MODE_OPTIONS]}
+              value={themeMode}
+              onChange={handleThemeChange}
+            />
+          </div>
+        )}
+      </GzFetchFeedbackProvider>
     </ConfigProvider>
   );
 };
