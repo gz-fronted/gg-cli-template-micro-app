@@ -2,8 +2,8 @@
 
 ## 项目说明
 
-本项目采用 React、TypeScript、Vite 和 Garfish 技术栈开发。实际依赖版本以
-`package.json` 和锁文件为准。
+本项目采用 React、TypeScript、Vite 和 Garfish 技术栈开发。模板依赖范围以
+`package.json` 为准；脚手架生成项目安装依赖后，以生成的锁文件和已安装包类型为准。
 
 开发时必须遵循 `docs/agent-references/` 中的团队前端规范。开始任务前先阅读：
 
@@ -11,7 +11,8 @@
 docs/agent-references/index.md
 ```
 
-再根据任务类型加载对应规范，不要一次性加载全部文档。
+`index.md` 是“任务类型 → 规范文件”的唯一加载路由。根据任务类型加载直接相关规范，不要
+一次性加载全部文档，也不要在 `AGENTS.md` 或 README 中复制路由清单。
 
 ## 基础技术栈
 
@@ -47,117 +48,12 @@ docs/agent-references/tech-stack.md
 - 开发前检查现有实现、产品文档、接口文档和 UI 设计稿；不得虚构业务定义。
 - 只修改任务范围内的文件，保留工作区中已有且无关的用户改动。
 
-## 规范加载规则
+## 规范加载
 
-### 业务需求开发
-
-阅读：
-
-```text
-docs/agent-references/requirements.md
-docs/agent-references/agent-workflow.md
-```
-
-如果任务涉及错题本中已有的重复问题，再读取：
-
-```text
-docs/agent-references/agent-mistakes.md
-```
-
-### React 组件或 Hooks 开发
-
-阅读：
-
-```text
-docs/agent-references/react.md
-docs/agent-references/typescript.md
-```
-
-### 状态管理开发
-
-阅读：
-
-```text
-docs/agent-references/state-management.md
-docs/agent-references/typescript.md
-```
-
-### UI、表单、样式或视觉还原
-
-阅读：
-
-```text
-docs/agent-references/ui.md
-docs/agent-references/styling.md
-```
-
-编码前必须提取本次任务相关的尺寸、间距、颜色、圆角、滚动、交互状态和组件约束；
-完成后必须结合实际运行页面逐项核对，不得只验证功能。
-
-### API 请求和类型开发
-
-阅读：
-
-```text
-docs/agent-references/api.md
-docs/agent-references/gz-fetch.md
-docs/agent-references/typescript.md
-```
-
-### 业务 Mock 开发
-
-阅读：
-
-```text
-docs/agent-references/mock.md
-docs/agent-references/api.md
-docs/agent-references/requirements.md
-docs/agent-references/typescript.md
-docs/agent-references/project-structure.md
-```
-
-获得接口文档后，默认生成声明式 Mock 配置和代表性数据，不要求开发者手写 MSW
-Handler。只有产品语义、字段关联、敏感数据或状态变化无法确认时才询问。
-
-### Mock Runtime 开发
-
-只有修改通用 Mock Runtime、MSW 集成或相关测试时才阅读：
-
-```text
-docs/agent-references/mock-runtime.md
-docs/agent-references/mock.md
-docs/agent-references/typescript.md
-docs/agent-references/code-quality.md
-```
-
-### 新增页面、组件或调整目录
-
-阅读：
-
-```text
-docs/agent-references/project-structure.md
-```
-
-### AG Grid 表格开发
-
-阅读并遵循：
-
-```text
-docs/agent-references/ag-grid.md
-docs/agent-references/typescript.md
-docs/agent-references/ui.md
-docs/agent-references/styling.md
-```
-
-### 工程配置或脚手架调整
-
-阅读：
-
-```text
-docs/agent-references/tooling.md
-docs/agent-references/code-quality.md
-docs/agent-references/project-structure.md
-```
+- 任务路由统一由 `docs/agent-references/index.md` 维护。
+- 一个任务涉及多个类型时，合并对应规范并去重，只读取与当前改动直接相关的内容。
+- 规范中引用的专项文档仅在触发对应场景时继续读取，不做无目的扩展加载。
+- 发现索引缺项或路由冲突时先修正索引，不在其他文档新增另一份路由。
 
 ## 开发完成检查
 

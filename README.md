@@ -263,22 +263,8 @@ http://localhost:3001/?themeSwitcher=1
 3. 规范未覆盖的内容以现有实现和需求为准。
 4. 完成开发后执行与改动相关的 lint、类型检查、测试或构建。
 
-例如，工程配置任务读取：
-
-```text
-docs/agent-references/tooling.md
-docs/agent-references/code-quality.md
-```
-
-React 页面任务读取：
-
-```text
-docs/agent-references/react.md
-docs/agent-references/typescript.md
-docs/agent-references/ui.md
-docs/agent-references/styling.md
-docs/agent-references/project-structure.md
-```
+任务加载路由只在 `docs/agent-references/index.md` 中维护，README 不重复列出，避免规范更新后
+出现多份清单不一致。
 
 ## 开发约定
 

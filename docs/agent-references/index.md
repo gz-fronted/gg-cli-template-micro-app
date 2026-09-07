@@ -1,6 +1,14 @@
 # Agent References Index
 
-本目录存放团队前端开发规范。根据任务类型按需加载，不要一次性读取全部文件。
+本目录存放团队前端开发规范。本文件是“任务类型 → 规范文件”的唯一加载路由；
+`AGENTS.md` 和 README 只指向本文件，不重复维护任务清单。
+
+## 加载原则
+
+- 开始任务时先判断任务类型，再读取对应规范，不要一次性加载全部文档。
+- 一个任务涉及多个类型时合并对应清单并去重。
+- 清单中的文件均相对于当前目录 `docs/agent-references/`。
+- 规范正文要求按场景继续读取其他文件时，仅在场景实际触发后加载。
 
 ## 文档目录
 
@@ -24,7 +32,7 @@
 | `code-quality.md`      | ESLint、Stylelint、Prettier、测试、构建和提交规范 |
 | `tooling.md`           | 脚手架及相关工程工具                              |
 
-## 常见任务加载建议
+## 任务加载路由
 
 ### 业务需求开发
 
@@ -35,15 +43,25 @@ agent-workflow.md
 
 任务涉及错题本中已有问题时，再读取 `agent-mistakes.md`。
 
-### React 页面、表单和视觉开发
+### React 组件或 Hooks 开发
 
 ```text
 react.md
 typescript.md
+```
+
+新增页面、组件或调整目录时，再读取 `project-structure.md`。
+
+### UI、表单、样式或视觉还原
+
+```text
 ui.md
 styling.md
-project-structure.md
 ```
+
+任务同时修改 React/TypeScript 代码时，再读取 `react.md` 和 `typescript.md`；新增页面、
+组件或调整目录时，再读取 `project-structure.md`。编码前提取相关尺寸、间距、颜色、圆角、
+滚动、交互状态和组件约束，完成后结合实际运行页面逐项核对。
 
 ### 接口和联调开发
 
@@ -78,6 +96,12 @@ code-quality.md
 ```text
 state-management.md
 typescript.md
+```
+
+### 新增页面、组件或调整目录
+
+```text
+project-structure.md
 ```
 
 ### AG Grid 表格开发
