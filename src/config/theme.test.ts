@@ -8,7 +8,7 @@ afterEach(() => {
 
 describe('resolveThemeMode', () => {
   it('返回候选值中第一个有效主题', () => {
-    expect(resolveThemeMode('unknown-theme', 'blue-light')).toBe('blue-light');
+    expect(resolveThemeMode('blue-light', 'gold-light')).toBe('gold-light');
   });
 
   it('没有有效候选值时返回默认主题', () => {

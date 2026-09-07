@@ -232,7 +232,7 @@ location.reload();
 http://localhost:3001/?themeSwitcher=1
 ```
 
-切换器支持 `gold-dark`、`gold-light`、`blue-dark`、`blue-light` 四套主题。
+切换器支持 `gold-dark`、`gold-light` 两套主题。
 
 业务 Less/CSS 的文字、背景、边框、阴影和交互状态颜色必须使用 `--gz-*` 语义变量，
 不得写死 Hex、RGB、RGBA、HSL 或颜色关键字。例如 `--gz-color-bg-layout`、`--gz-color-text`。
