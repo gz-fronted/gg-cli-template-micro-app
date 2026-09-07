@@ -41,7 +41,7 @@
     "@ant-design/icons": "^6.1.0",
     "@chenhui996/gg-ui": "^0.1.5",
     "@garfish/bridge-react-v18": "^1.19.8",
-    "@gz-fronted/gz-pc": "0.1.1-beta.4",
+    "@gz-fronted/gz-pc": "^0.1.1",
     "ag-grid-community": "^36.0.1",
     "ag-grid-enterprise": "^36.0.1",
     "ag-grid-react": "^36.0.1",
