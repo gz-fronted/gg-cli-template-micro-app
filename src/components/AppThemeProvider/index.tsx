@@ -1,14 +1,15 @@
-import { applyDesignTokenCssVariables, ConfigProvider, Select, type GZThemeMode } from 'gz-ui';
+import { applyDesignTokenCssVariables, ConfigProvider } from '@chenhui996/gg-ui';
+import { GzFetchFeedbackProvider } from '@gz-fronted/gz-pc/fetch';
 import zhCN from 'antd/locale/zh_CN';
 import { useEffect, useLayoutEffect, type ReactNode } from 'react';
 import {
-  isGzThemeMode,
+  isAppThemeMode,
   persistThemeMode,
   shouldShowThemeSwitcher,
-  THEME_MODE_OPTIONS,
+  type AppThemeMode,
 } from '@/config/theme';
 import { useGlobalStore } from '@/store/useGlobalStore';
-import styles from './index.module.less';
+import ThemeSwitcher from './ThemeSwitcher';
 
 const TEMPLATE_SCOPE = '{{ projectName }}';
 const MICRO_APP_SCOPE = TEMPLATE_SCOPE.startsWith('{{') ? 'micro-app' : TEMPLATE_SCOPE;
@@ -34,7 +35,7 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = (props) => {
   useEffect(() => {
     const handleHostThemeChange = (event: Event) => {
       const detail = (event as CustomEvent<ThemeChangeEventDetail>).detail;
-      if (detail?.event !== THEME_CHANGE_EVENT || !isGzThemeMode(detail.payload)) {
+      if (detail?.event !== THEME_CHANGE_EVENT || !isAppThemeMode(detail.payload)) {
         return;
       }
 
@@ -56,7 +57,7 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = (props) => {
     });
   }, [themeMode]);
 
-  const handleThemeChange = (nextThemeMode: GZThemeMode) => {
+  const handleThemeChange = (nextThemeMode: AppThemeMode) => {
     setThemeMode(nextThemeMode);
     persistThemeMode(nextThemeMode);
   };
@@ -70,19 +71,12 @@ const AppThemeProvider: React.FC<AppThemeProviderProps> = (props) => {
       theme={{ hashed: false }}
       themeMode={themeMode}
     >
-      {children}
-      {showThemeSwitcher && (
-        <div className={styles.themeSwitcher}>
-          <span>主题</span>
-          <Select
-            aria-label="切换主题"
-            className={styles.themeSelect}
-            options={[...THEME_MODE_OPTIONS]}
-            value={themeMode}
-            onChange={handleThemeChange}
-          />
-        </div>
-      )}
+      <GzFetchFeedbackProvider>
+        {children}
+        {showThemeSwitcher && (
+          <ThemeSwitcher themeMode={themeMode} onThemeChange={handleThemeChange} />
+        )}
+      </GzFetchFeedbackProvider>
     </ConfigProvider>
   );
 };

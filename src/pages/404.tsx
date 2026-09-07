@@ -1,4 +1,4 @@
-import { Button, Result } from 'antd';
+import { Button, Result } from '@chenhui996/gg-ui';
 import { useNavigate } from 'react-router-dom';
 
 /**

@@ -9,5 +9,8 @@ export const configureRequest = (): void => {
     timeout: 10_000,
     getToken: getRuntimeToken,
     showErrorMessage: true,
+    unauthorized: {
+      enabled: true,
+    },
   });
 };

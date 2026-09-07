@@ -1,5 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
-import { Result, Button } from 'antd';
+import { Button, Result } from '@chenhui996/gg-ui';
 
 interface Props {
   children?: ReactNode;

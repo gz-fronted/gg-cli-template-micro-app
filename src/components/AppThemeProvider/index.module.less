@@ -15,6 +15,39 @@
   box-shadow: 0 4px 16px var(--gz-color-fill-secondary);
 }
 
+.dragHandle {
+  display: inline-flex;
+  flex: 0 0 24px;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  font-size: 16px;
+  line-height: 1;
+  color: var(--gz-color-text-secondary);
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+
+  &:hover {
+    color: var(--gz-color-text);
+    background: var(--gz-color-fill-secondary);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--gz-color-primary);
+    outline-offset: 2px;
+  }
+}
+
+.themeSwitcher[data-dragging='true'] .dragHandle {
+  cursor: grabbing;
+}
+
 .themeSelect {
   width: 132px;
 }

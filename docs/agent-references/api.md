@@ -13,6 +13,10 @@
 - 默认使用 `@gz-fronted/gz-pc/fetch` 导出的 `gzFetch`。
 - 请求客户端只在应用启动阶段配置，业务模块不得重复创建实例。
 - 页面组件不得直接使用 Axios，也不得重复维护 Token、错误转换和消息提示。
+- 模板已在根主题 Provider 中接入 `GzFetchFeedbackProvider`，普通错误 message 和 401 Modal
+  统一由请求层展示并继承当前主题，业务页面不得重复提示同一错误。
+- HTTP 401 默认在模板初始化配置中开启；SSO 或主应用统一登录只允许在初始化层通过
+  `unauthorized.onUnauthorized` 或 `unauthorized.loginUrl` 覆盖。
 - gzFetch 的初始化、Token、请求参数、响应和错误规则见 `gz-fetch.md`。
 
 ## React 请求状态

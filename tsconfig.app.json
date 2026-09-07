@@ -19,8 +19,7 @@
     /* Path Aliases */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "gz-ui": ["./node_modules/@chenhui996/gg-ui"]
+      "@/*": ["src/*"]
     },
 
     /* Linting */

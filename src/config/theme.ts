@@ -1,29 +1,29 @@
-import type { GZThemeMode } from 'gz-ui';
+import type { GZThemeMode } from '@chenhui996/gg-ui';
 
-export const DEFAULT_THEME_MODE: GZThemeMode = 'gold-dark';
+export type AppThemeMode = Extract<GZThemeMode, 'gold-dark' | 'gold-light'>;
+
+export const DEFAULT_THEME_MODE: AppThemeMode = 'gold-dark';
 export const THEME_STORAGE_KEY = '{{ projectName }}.theme-mode';
 export const THEME_SWITCHER_STORAGE_KEY = 'showThemeSwitcher';
 export const THEME_SWITCHER_QUERY_KEY = 'themeSwitcher';
 
 export const THEME_MODE_OPTIONS: ReadonlyArray<{
   label: string;
-  value: GZThemeMode;
+  value: AppThemeMode;
 }> = [
   { label: '金色 / 深色', value: 'gold-dark' },
   { label: '金色 / 浅色', value: 'gold-light' },
-  { label: '蓝色 / 深色', value: 'blue-dark' },
-  { label: '蓝色 / 浅色', value: 'blue-light' },
 ];
 
-const THEME_MODES = new Set<GZThemeMode>(THEME_MODE_OPTIONS.map((option) => option.value));
+const THEME_MODES = new Set<AppThemeMode>(THEME_MODE_OPTIONS.map((option) => option.value));
 
-export const isGzThemeMode = (value: unknown): value is GZThemeMode =>
-  typeof value === 'string' && THEME_MODES.has(value as GZThemeMode);
+export const isAppThemeMode = (value: unknown): value is AppThemeMode =>
+  typeof value === 'string' && THEME_MODES.has(value as AppThemeMode);
 
-export const resolveThemeMode = (...candidates: readonly unknown[]): GZThemeMode =>
-  candidates.find(isGzThemeMode) ?? DEFAULT_THEME_MODE;
+export const resolveThemeMode = (...candidates: readonly unknown[]): AppThemeMode =>
+  candidates.find(isAppThemeMode) ?? DEFAULT_THEME_MODE;
 
-export const readStoredThemeMode = (): GZThemeMode => {
+export const readStoredThemeMode = (): AppThemeMode => {
   if (typeof window === 'undefined') {
     return DEFAULT_THEME_MODE;
   }
@@ -31,7 +31,7 @@ export const readStoredThemeMode = (): GZThemeMode => {
   return resolveThemeMode(window.localStorage.getItem(THEME_STORAGE_KEY));
 };
 
-export const persistThemeMode = (themeMode: GZThemeMode): void => {
+export const persistThemeMode = (themeMode: AppThemeMode): void => {
   if (typeof window !== 'undefined') {
     window.localStorage.setItem(THEME_STORAGE_KEY, themeMode);
   }

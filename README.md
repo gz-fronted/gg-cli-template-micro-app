@@ -23,6 +23,7 @@
 - ESLint、Stylelint、Prettier 代码质量检查
 - 初始化时使用项目名称作为组件样式前缀和稳定的 `cssVarScope`
 - 内置 GZ UI 四主题初始化、本地开发主题切换和业务 CSS Token Variables
+- 内置 gzFetch 主题感知的统一错误反馈和全局单例 401 登录失效弹窗
 - commitlint 提交信息校验
 - Husky、lint-staged 提交前增量检查
 - development、test、sit、production 多环境构建
@@ -156,6 +157,10 @@ VITE_API_SERVER=http://172.16.31.76:8599
 
 - API 函数从 `@gz-fronted/gz-pc/fetch` 导入 `gzFetch`。
 - React 组件从 `@gz-fronted/gz-pc/hooks` 导入 `useRequest`。
+- 模板在启动阶段默认开启统一 401 处理，并在主题根节点内挂载
+  `GzFetchFeedbackProvider`；业务页面不需要重复展示错误或挂载弹窗。
+- 401 确认后默认跳转 `/login`；SSO 或由主应用负责登录时，在
+  `src/bootstrap/configure-request.ts` 覆盖 `unauthorized.onUnauthorized` 或 `loginUrl`。
 - `npm run dev` 不加载 Mock；`npm run mock` 在应用渲染前启动 Worker。
 - Mock Key 使用 `/pathname.method`，默认 `status` 为 `200`、`mockTime` 为 `500`。
 - 未匹配 Mock 的请求放行到真实接口。
@@ -227,7 +232,7 @@ location.reload();
 http://localhost:3001/?themeSwitcher=1
 ```
 
-切换器支持 `gold-dark`、`gold-light`、`blue-dark`、`blue-light` 四套主题。
+切换器支持 `gold-dark`、`gold-light` 两套主题。
 
 业务 Less/CSS 的文字、背景、边框、阴影和交互状态颜色必须使用 `--gz-*` 语义变量，
 不得写死 Hex、RGB、RGBA、HSL 或颜色关键字。例如 `--gz-color-bg-layout`、`--gz-color-text`。
@@ -258,22 +263,8 @@ http://localhost:3001/?themeSwitcher=1
 3. 规范未覆盖的内容以现有实现和需求为准。
 4. 完成开发后执行与改动相关的 lint、类型检查、测试或构建。
 
-例如，工程配置任务读取：
-
-```text
-docs/agent-references/tooling.md
-docs/agent-references/code-quality.md
-```
-
-React 页面任务读取：
-
-```text
-docs/agent-references/react.md
-docs/agent-references/typescript.md
-docs/agent-references/ui.md
-docs/agent-references/styling.md
-docs/agent-references/project-structure.md
-```
+任务加载路由只在 `docs/agent-references/index.md` 中维护，README 不重复列出，避免规范更新后
+出现多份清单不一致。
 
 ## 开发约定
 

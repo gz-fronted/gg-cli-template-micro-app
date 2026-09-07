@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { GZThemeMode } from 'gz-ui';
+import type { AppThemeMode } from '@/config/theme';
 
 export interface UserInfo {
   name: string;
@@ -10,8 +10,8 @@ export interface UserInfo {
 export interface GlobalState {
   user: UserInfo | null;
   token: string | null;
-  themeMode: GZThemeMode;
-  setThemeMode: (themeMode: GZThemeMode) => void;
+  themeMode: AppThemeMode;
+  setThemeMode: (themeMode: AppThemeMode) => void;
   setGlobalState: (state: Partial<GlobalState>) => void;
 }
 

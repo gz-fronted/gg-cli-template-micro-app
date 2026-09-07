@@ -29,7 +29,8 @@ suppressCellFocus: true
 ## 行状态和对齐
 
 Hover、Selected、Hover + Selected 等行状态必须使用 AG Grid Table Tokens 中对应的主题
-变量，并验证四套主题下的对比度和优先级，不得在业务 Less/CSS 中写固定颜色。
+变量，并验证 `gold-dark`、`gold-light` 两套主题下的对比度和优先级，不得在业务
+Less/CSS 中写固定颜色。
 
 固定列与中心区域同一行的背景必须一致。状态圆点、Tag、按钮和文本在当前行高中垂直
 居中，点击区域不得溢出数据行。
