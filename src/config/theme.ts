@@ -1,4 +1,4 @@
-import type { GZThemeMode } from 'gz-ui';
+import type { GZThemeMode } from '@chenhui996/gg-ui';
 
 export const DEFAULT_THEME_MODE: GZThemeMode = 'gold-dark';
 export const THEME_STORAGE_KEY = '{{ projectName }}.theme-mode';

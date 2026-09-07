@@ -63,7 +63,6 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
-        'gz-ui': '@chenhui996/gg-ui',
       },
     },
     // 生产环境打包配置

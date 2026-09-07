@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { GZThemeMode } from 'gz-ui';
+import type { GZThemeMode } from '@chenhui996/gg-ui';
 
 export interface UserInfo {
   name: string;
