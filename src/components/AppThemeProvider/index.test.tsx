@@ -25,6 +25,18 @@ describe('AppThemeProvider', () => {
     expect(screen.getByRole('button', { name: '拖动主题切换器' })).toBeInTheDocument();
   });
 
+  it('Framework 模式下可以关闭浮动主题切换器', () => {
+    window.history.replaceState({}, '', '/?themeSwitcher=1');
+
+    render(
+      <AppThemeProvider showDevelopmentThemeSwitcher={false}>
+        <div>content</div>
+      </AppThemeProvider>,
+    );
+
+    expect(screen.queryByLabelText('切换主题')).not.toBeInTheDocument();
+  });
+
   it('允许拖动主题切换器并限制在可视区域内', () => {
     window.history.replaceState({}, '', '/?themeSwitcher=1');
 

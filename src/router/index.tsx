@@ -5,6 +5,7 @@
 import { lazy, Suspense, type ComponentType, type LazyExoticComponent } from 'react';
 import RouteLoading from '@/components/RouteLoading';
 import BasicLayout from '@/layouts/BasicLayout';
+import type { AppRouteObject } from './types';
 
 // 路由懒加载配置
 const Home = lazy(() => import('@/pages/home'));
@@ -19,7 +20,7 @@ function withSuspense(Component: LazyExoticComponent<ComponentType>) {
   );
 }
 
-const routes = [
+const routes: AppRouteObject[] = [
   {
     path: '/',
     // 根布局：BasicLayout

@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite --mode development",
+    "dev:host": "cross-env VITE_FRAMEWORK=true vite --mode development",
     "mock": "vite --mode mock",
+    "mock:host": "cross-env VITE_FRAMEWORK=true vite --mode mock",
     "build:test": "tsc -b && vite build --mode test",
     "build:prod": "tsc -b && vite build --mode production",
     "build:dev": "tsc -b && vite build --mode development",
@@ -39,9 +41,9 @@
   "dependencies": {
     "@ag-grid-community/locale": "^36.0.1",
     "@ant-design/icons": "^6.1.0",
-    "@chenhui996/gg-ui": "^0.1.5",
+    "@chenhui996/gg-ui": "^0.2.2",
     "@garfish/bridge-react-v18": "^1.19.8",
-    "@gz-fronted/gz-pc": "^0.1.1",
+    "@gz-fronted/gz-pc": "^0.1.2",
     "ag-grid-community": "^36.0.1",
     "ag-grid-enterprise": "^36.0.1",
     "ag-grid-react": "^36.0.1",

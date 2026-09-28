@@ -6,6 +6,7 @@ import styles from './index.module.less';
 interface ThemeSwitcherProps {
   themeMode: AppThemeMode;
   onThemeChange: (themeMode: AppThemeMode) => void;
+  variant?: 'floating' | 'inline';
 }
 
 interface FloatingPosition {
@@ -37,13 +38,17 @@ const getBoundedPosition = (
 });
 
 const ThemeSwitcher: React.FC<ThemeSwitcherProps> = (props) => {
-  const { onThemeChange, themeMode } = props;
+  const { onThemeChange, themeMode, variant = 'floating' } = props;
   const themeSwitcherRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef<DragState | null>(null);
   const [position, setPosition] = useState<FloatingPosition | null>(null);
   const [isDragging, setIsDragging] = useState(false);
 
   useEffect(() => {
+    if (variant === 'inline') {
+      return undefined;
+    }
+
     const handleWindowResize = () => {
       const themeSwitcher = themeSwitcherRef.current;
       if (!themeSwitcher) {
@@ -68,7 +73,7 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = (props) => {
     return () => {
       window.removeEventListener('resize', handleWindowResize);
     };
-  }, []);
+  }, [variant]);
 
   const handleDragStart = (event: PointerEvent<HTMLButtonElement>) => {
     if (event.button !== 0 || !themeSwitcherRef.current) {
@@ -144,25 +149,35 @@ const ThemeSwitcher: React.FC<ThemeSwitcherProps> = (props) => {
     <div
       ref={themeSwitcherRef}
       aria-label="主题切换器"
-      className={styles.themeSwitcher}
+      className={
+        variant === 'inline'
+          ? `${styles.themeSwitcher} ${styles.inlineThemeSwitcher}`
+          : styles.themeSwitcher
+      }
       data-dragging={isDragging}
       role="group"
-      style={position ? { left: position.x, right: 'auto', top: position.y } : undefined}
+      style={
+        variant === 'floating' && position
+          ? { left: position.x, right: 'auto', top: position.y }
+          : undefined
+      }
     >
-      <button
-        aria-label="拖动主题切换器"
-        className={styles.dragHandle}
-        title="拖动主题切换器；方向键可调整位置"
-        type="button"
-        onKeyDown={handleDragKeyDown}
-        onLostPointerCapture={handleDragEnd}
-        onPointerCancel={handleDragEnd}
-        onPointerDown={handleDragStart}
-        onPointerMove={handleDragMove}
-        onPointerUp={handleDragEnd}
-      >
-        <span aria-hidden="true">⠿</span>
-      </button>
+      {variant === 'floating' && (
+        <button
+          aria-label="拖动主题切换器"
+          className={styles.dragHandle}
+          title="拖动主题切换器；方向键可调整位置"
+          type="button"
+          onKeyDown={handleDragKeyDown}
+          onLostPointerCapture={handleDragEnd}
+          onPointerCancel={handleDragEnd}
+          onPointerDown={handleDragStart}
+          onPointerMove={handleDragMove}
+          onPointerUp={handleDragEnd}
+        >
+          <span aria-hidden="true">⠿</span>
+        </button>
+      )}
       <span>主题</span>
       <Select
         aria-label="切换主题"

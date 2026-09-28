@@ -3,11 +3,14 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { reactBridge, type PropsInfo } from '@garfish/bridge-react-v18';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
+import type { ComponentType, ReactNode } from 'react';
 import { configureRequest } from '@/bootstrap/configure-request';
 import { enableMock } from '@/bootstrap/enable-mock';
 import AppThemeProvider from '@/components/AppThemeProvider';
+import { shouldUseFramework } from '@/config/framework';
 import { readStoredThemeMode, resolveThemeMode } from '@/config/theme';
 import { routes } from '@/router';
+import type { AppRouteObject } from '@/router/types';
 import { useGlobalStore, type GlobalState } from '@/store/useGlobalStore';
 import './style.less';
 
@@ -25,6 +28,13 @@ if (!window.__GARFISH__) {
 // 主题 Provider 内的 cssVarScope 会由 gg-cli 使用项目名替换，隔离多个微应用的组件变量。
 interface ApplicationRootProps {
   basename: string;
+  Framework?: ComponentType<FrameworkProps>;
+}
+
+interface FrameworkProps {
+  children?: ReactNode;
+  router: ReturnType<typeof createBrowserRouter>;
+  routes: readonly AppRouteObject[];
 }
 
 interface GarfishCustomProps {
@@ -36,12 +46,19 @@ interface GarfishCustomProps {
 
 // 独立运行和 Garfish 挂载共用同一个应用根组件。
 const ApplicationRoot: React.FC<ApplicationRootProps> = (props) => {
-  const { basename } = props;
+  const { basename, Framework } = props;
   const router = createBrowserRouter(routes, { basename });
+  const routerContent = <RouterProvider router={router} />;
 
   return (
-    <AppThemeProvider>
-      <RouterProvider router={router} />
+    <AppThemeProvider showDevelopmentThemeSwitcher={!Framework}>
+      {Framework ? (
+        <Framework router={router} routes={routes}>
+          {routerContent}
+        </Framework>
+      ) : (
+        routerContent
+      )}
     </AppThemeProvider>
   );
 };
@@ -78,7 +95,11 @@ const bootstrapStandalone = async (): Promise<void> => {
     throw new Error('应用根节点不存在');
   }
 
-  createRoot(rootElement).render(<ApplicationRoot basename="/" />);
+  const Framework = shouldUseFramework(import.meta.env.DEV, import.meta.env.VITE_FRAMEWORK)
+    ? (await import('@/framework')).default
+    : undefined;
+
+  createRoot(rootElement).render(<ApplicationRoot basename="/" Framework={Framework} />);
 };
 
 if (!window.__GARFISH__) {

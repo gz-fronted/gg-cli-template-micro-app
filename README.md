@@ -62,8 +62,14 @@ legacy-peer-deps=true
 # 开发
 npm run dev
 
+# 带本地 Framework 壳子的开发
+npm run dev:host
+
 # Mock 开发
 npm run mock
+
+# Mock + 本地 Framework
+npm run mock:host
 
 # 构建
 npm run build:dev
@@ -124,13 +130,13 @@ Husky 会在提交过程中执行：
 
 环境文件：
 
-| 文件               | 对应命令             |
-| ------------------ | -------------------- |
-| `.env.development` | `npm run dev`        |
-| `.env.mock`        | `npm run mock`       |
-| `.env.test`        | `npm run build:test` |
-| `.env.sit`         | `npm run build:sit`  |
-| `.env.production`  | `npm run build:prod` |
+| 文件               | 对应命令                             |
+| ------------------ | ------------------------------------ |
+| `.env.development` | `npm run dev`                        |
+| `.env.mock`        | `npm run mock` / `npm run mock:host` |
+| `.env.test`        | `npm run build:test`                 |
+| `.env.sit`         | `npm run build:sit`                  |
+| `.env.production`  | `npm run build:prod`                 |
 
 示例：
 
@@ -161,7 +167,7 @@ VITE_API_SERVER=http://172.16.31.76:8599
   `GzFetchFeedbackProvider`；业务页面不需要重复展示错误或挂载弹窗。
 - 401 确认后默认跳转 `/login`；SSO 或由主应用负责登录时，在
   `src/bootstrap/configure-request.ts` 覆盖 `unauthorized.onUnauthorized` 或 `loginUrl`。
-- `npm run dev` 不加载 Mock；`npm run mock` 在应用渲染前启动 Worker。
+- `npm run dev` 不加载 Mock；`npm run mock` 和 `npm run mock:host` 在应用渲染前启动 Worker。
 - Mock Key 使用 `/pathname.method`，默认 `status` 为 `200`、`mockTime` 为 `500`。
 - 未匹配 Mock 的请求放行到真实接口。
 - Mock Runtime 的 Store 与 Zustand 无关，只用于模拟接口连续状态。
@@ -187,6 +193,8 @@ src/
 │   ├── Chart/
 │   ├── ErrorBoundary/
 │   └── RouteLoading/
+├── framework/                 # 仅本地按需启用的 Framework 壳子
+├── hooks/                     # 全局复用 Hooks
 ├── layouts/                   # 页面布局
 ├── mock/                      # 通用 Mock Runtime
 ├── pages/                     # 路由页面
@@ -209,6 +217,11 @@ src/
 
 当 `window.__GARFISH__` 不存在时，`src/main.tsx` 会直接创建 React Root，并使用 `/` 作为路由 basename。
 独立运行时会先将 localStorage 中的 Token 和 `{{ projectName }}.theme-mode` 初始化到 Zustand Store。
+
+执行 `npm run dev:host` 或 `npm run mock:host` 时，会在同一个 Vite Server 和 React Root 中按需加载
+本地 Framework，为原有业务 Router 增加 Header、可收起 Sidebar 和主题入口。其中
+`npm run mock:host` 还会通过 `.env.mock` 启用 Mock Worker。`npm run dev`、`npm run mock`、Garfish
+provider 和 production build 不启用 Framework。Sidebar 直接从现有 routes 递归生成，不维护第二份菜单配置。
 
 ### 主题切换器与颜色变量
 
