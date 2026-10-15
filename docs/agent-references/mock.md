@@ -9,7 +9,7 @@ HttpResponse。底层实现见 `mock-runtime.md`，普通业务 Mock 任务不�
 | -------------------- | ----------- | ------ |
 | `npm run dev`        | development | 不启用 |
 | `npm run mock`       | mock        | 启用   |
-| `npm run build:sit`  | sit         | 不启用 |
+| `npm run build:mock` | mock        | 启用   |
 | `npm run build:prod` | production  | 不启用 |
 
 `.env.mock` 使用：

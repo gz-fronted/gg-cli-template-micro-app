@@ -26,7 +26,7 @@
 - 内置 gzFetch 主题感知的统一错误反馈和全局单例 401 登录失效弹窗
 - commitlint 提交信息校验
 - Husky、lint-staged 提交前增量检查
-- development、test、sit、production 多环境构建
+- development、test、mock、production 多环境构建
 - 声明式 Mock mode，未匹配请求自动放行真实接口
 - React Compiler
 - 第三方依赖分包和构建产物分析
@@ -72,9 +72,8 @@ npm run mock
 npm run mock:host
 
 # 构建
-npm run build:dev
+npm run build:mock
 npm run build:test
-npm run build:sit
 npm run build:prod
 
 # 测试
@@ -130,13 +129,12 @@ Husky 会在提交过程中执行：
 
 环境文件：
 
-| 文件               | 对应命令                             |
-| ------------------ | ------------------------------------ |
-| `.env.development` | `npm run dev`                        |
-| `.env.mock`        | `npm run mock` / `npm run mock:host` |
-| `.env.test`        | `npm run build:test`                 |
-| `.env.sit`         | `npm run build:sit`                  |
-| `.env.production`  | `npm run build:prod`                 |
+| 文件               | 对应命令                                                    |
+| ------------------ | ----------------------------------------------------------- |
+| `.env.development` | `npm run dev`                                               |
+| `.env.mock`        | `npm run mock` / `npm run mock:host` / `npm run build:mock` |
+| `.env.test`        | `npm run build:test`                                        |
+| `.env.production`  | `npm run build:prod`                                        |
 
 示例：
 
@@ -151,9 +149,6 @@ VITE_API_BASE_URL=/api
 ```dotenv
 # dev
 VITE_API_SERVER=http://172.16.31.163:8599
-
-# sit
-VITE_API_SERVER=http://172.16.31.76:8599
 ```
 
 `8599` 是脚手架占位端口，项目分配正式端口后必须修改。该变量不得用作 gzFetch
