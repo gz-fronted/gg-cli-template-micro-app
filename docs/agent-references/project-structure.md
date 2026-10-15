@@ -6,7 +6,6 @@
 ├── .env.development
 ├── .env.mock
 ├── .env.test
-├── .env.sit
 ├── .env.production
 ├── .commitlintrc
 ├── .stylelintrc

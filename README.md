@@ -13,7 +13,7 @@
 - `@gz-fronted/gz-pc`
 - MSW 2
 - Less 4
-- `@chenhui996/gg-ui` / Ant Design 6
+- `gz-ui-web` / Ant Design 6
 - AG Grid React Enterprise
 - ECharts
 - Vitest / Testing Library
@@ -26,7 +26,7 @@
 - 内置 gzFetch 主题感知的统一错误反馈和全局单例 401 登录失效弹窗
 - commitlint 提交信息校验
 - Husky、lint-staged 提交前增量检查
-- development、test、sit、production 多环境构建
+- development、test、mock、production 多环境构建
 - 声明式 Mock mode，未匹配请求自动放行真实接口
 - React Compiler
 - 第三方依赖分包和构建产物分析
@@ -62,13 +62,18 @@ legacy-peer-deps=true
 # 开发
 npm run dev
 
+# 带本地 Framework 壳子的开发
+npm run dev:host
+
 # Mock 开发
 npm run mock
 
+# Mock + 本地 Framework
+npm run mock:host
+
 # 构建
-npm run build:dev
+npm run build:mock
 npm run build:test
-npm run build:sit
 npm run build:prod
 
 # 测试
@@ -124,13 +129,12 @@ Husky 会在提交过程中执行：
 
 环境文件：
 
-| 文件               | 对应命令             |
-| ------------------ | -------------------- |
-| `.env.development` | `npm run dev`        |
-| `.env.mock`        | `npm run mock`       |
-| `.env.test`        | `npm run build:test` |
-| `.env.sit`         | `npm run build:sit`  |
-| `.env.production`  | `npm run build:prod` |
+| 文件               | 对应命令                                                    |
+| ------------------ | ----------------------------------------------------------- |
+| `.env.development` | `npm run dev`                                               |
+| `.env.mock`        | `npm run mock` / `npm run mock:host` / `npm run build:mock` |
+| `.env.test`        | `npm run build:test`                                        |
+| `.env.production`  | `npm run build:prod`                                        |
 
 示例：
 
@@ -145,9 +149,6 @@ VITE_API_BASE_URL=/api
 ```dotenv
 # dev
 VITE_API_SERVER=http://172.16.31.163:8599
-
-# sit
-VITE_API_SERVER=http://172.16.31.76:8599
 ```
 
 `8599` 是脚手架占位端口，项目分配正式端口后必须修改。该变量不得用作 gzFetch
@@ -161,7 +162,7 @@ VITE_API_SERVER=http://172.16.31.76:8599
   `GzFetchFeedbackProvider`；业务页面不需要重复展示错误或挂载弹窗。
 - 401 确认后默认跳转 `/login`；SSO 或由主应用负责登录时，在
   `src/bootstrap/configure-request.ts` 覆盖 `unauthorized.onUnauthorized` 或 `loginUrl`。
-- `npm run dev` 不加载 Mock；`npm run mock` 在应用渲染前启动 Worker。
+- `npm run dev` 不加载 Mock；`npm run mock` 和 `npm run mock:host` 在应用渲染前启动 Worker。
 - Mock Key 使用 `/pathname.method`，默认 `status` 为 `200`、`mockTime` 为 `500`。
 - 未匹配 Mock 的请求放行到真实接口。
 - Mock Runtime 的 Store 与 Zustand 无关，只用于模拟接口连续状态。
@@ -187,6 +188,8 @@ src/
 │   ├── Chart/
 │   ├── ErrorBoundary/
 │   └── RouteLoading/
+├── framework/                 # 仅本地按需启用的 Framework 壳子
+├── hooks/                     # 全局复用 Hooks
 ├── layouts/                   # 页面布局
 ├── mock/                      # 通用 Mock Runtime
 ├── pages/                     # 路由页面
@@ -209,6 +212,11 @@ src/
 
 当 `window.__GARFISH__` 不存在时，`src/main.tsx` 会直接创建 React Root，并使用 `/` 作为路由 basename。
 独立运行时会先将 localStorage 中的 Token 和 `{{ projectName }}.theme-mode` 初始化到 Zustand Store。
+
+执行 `npm run dev:host` 或 `npm run mock:host` 时，会在同一个 Vite Server 和 React Root 中按需加载
+本地 Framework，为原有业务 Router 增加 Header、可收起 Sidebar 和主题入口。其中
+`npm run mock:host` 还会通过 `.env.mock` 启用 Mock Worker。`npm run dev`、`npm run mock`、Garfish
+provider 和 production build 不启用 Framework。Sidebar 直接从现有 routes 递归生成，不维护第二份菜单配置。
 
 ### 主题切换器与颜色变量
 
@@ -268,7 +276,7 @@ http://localhost:3001/?themeSwitcher=1
 
 ## 开发约定
 
-- 默认使用 `@chenhui996/gg-ui`，缺少所需组件时再使用 Ant Design。
+- 默认使用 `gz-ui-web`，缺少所需组件时再使用 Ant Design。
 - 业务表格默认使用 AG Grid React Enterprise。
 - 页面私有组件、Hooks 和状态遵循就近原则。
 - 跨页面共享状态放入 `src/store`。

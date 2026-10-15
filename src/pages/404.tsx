@@ -1,4 +1,4 @@
-import { Button, Result } from '@chenhui996/gg-ui';
+import { Button, Result } from 'gz-ui-web';
 import { useNavigate } from 'react-router-dom';
 
 /**

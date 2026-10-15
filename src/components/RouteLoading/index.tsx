@@ -1,4 +1,4 @@
-import { Spin } from '@chenhui996/gg-ui';
+import { Spin } from 'gz-ui-web';
 import styles from './index.module.less';
 
 const RouteLoading: React.FC = () => (

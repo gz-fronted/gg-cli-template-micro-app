@@ -1,3 +1,4 @@
+import { getDesignTokens } from 'gz-ui-web';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { useGlobalStore } from '@/store/useGlobalStore';
@@ -23,6 +24,18 @@ describe('AppThemeProvider', () => {
 
     expect(screen.getByLabelText('切换主题')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '拖动主题切换器' })).toBeInTheDocument();
+  });
+
+  it('Framework 模式下可以关闭浮动主题切换器', () => {
+    window.history.replaceState({}, '', '/?themeSwitcher=1');
+
+    render(
+      <AppThemeProvider showDevelopmentThemeSwitcher={false}>
+        <div>content</div>
+      </AppThemeProvider>,
+    );
+
+    expect(screen.queryByLabelText('切换主题')).not.toBeInTheDocument();
   });
 
   it('允许拖动主题切换器并限制在可视区域内', () => {
@@ -96,7 +109,9 @@ describe('AppThemeProvider', () => {
       </AppThemeProvider>,
     );
 
-    expect(document.documentElement.style.getPropertyValue('--gz-color-bg-layout')).toBe('#141414');
+    expect(document.documentElement.style.getPropertyValue('--gz-color-bg-layout')).toBe(
+      getDesignTokens({ themeMode: 'gold-dark' }).globalToken.colorBgLayout,
+    );
 
     unmount();
 
@@ -122,7 +137,9 @@ describe('AppThemeProvider', () => {
     });
 
     expect(useGlobalStore.getState().themeMode).toBe('gold-light');
-    expect(document.documentElement.style.getPropertyValue('--gz-color-bg-layout')).toBe('#F4FBFF');
+    expect(document.documentElement.style.getPropertyValue('--gz-color-bg-layout')).toBe(
+      getDesignTokens({ themeMode: 'gold-light' }).globalToken.colorBgLayout,
+    );
 
     unmount();
   });

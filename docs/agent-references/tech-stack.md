@@ -16,14 +16,14 @@
 业务开发默认使用：
 
 ```text
-@chenhui996/gg-ui
+gz-ui-web
 ```
 
-gg-ui 基于 Ant Design 6 二次封装，并支持 tokens 色系客制化配置。
+gz-ui-web 基于 Ant Design 6 二次封装，并支持 tokens 色系客制化配置。
 
-当 gg-ui 暂未提供所需组件时，允许使用 Ant Design 6。
+当 gz-ui-web 暂未提供所需组件时，允许使用 Ant Design 6。
 
-业务开发不得因为熟悉 Ant Design 而绕过 gg-ui。
+业务开发不得因为熟悉 Ant Design 而绕过 gz-ui-web。
 
 ## 表格组件
 

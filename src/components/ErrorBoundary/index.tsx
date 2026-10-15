@@ -1,5 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
-import { Button, Result } from '@chenhui996/gg-ui';
+import { Button, Result } from 'gz-ui-web';
 
 interface Props {
   children?: ReactNode;

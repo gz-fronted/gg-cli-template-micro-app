@@ -1,4 +1,4 @@
-import type { GZThemeMode } from '@chenhui996/gg-ui';
+import type { GZThemeMode } from 'gz-ui-web';
 
 export type AppThemeMode = Extract<GZThemeMode, 'gold-dark' | 'gold-light'>;
 
