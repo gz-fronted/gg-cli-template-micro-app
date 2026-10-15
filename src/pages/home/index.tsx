@@ -1,6 +1,6 @@
 import { Typography } from 'antd';
 import { useGlobalStore } from '@/store/useGlobalStore';
-import { Button } from '@chenhui996/gg-ui';
+import { Button } from 'gz-ui-web';
 import styles from './index.module.less';
 
 const { Title } = Typography;

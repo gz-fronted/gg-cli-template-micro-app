@@ -1,3 +1,4 @@
+import { getDesignTokens } from 'gz-ui-web';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { useGlobalStore } from '@/store/useGlobalStore';
@@ -108,7 +109,9 @@ describe('AppThemeProvider', () => {
       </AppThemeProvider>,
     );
 
-    expect(document.documentElement.style.getPropertyValue('--gz-color-bg-layout')).toBe('#141414');
+    expect(document.documentElement.style.getPropertyValue('--gz-color-bg-layout')).toBe(
+      getDesignTokens({ themeMode: 'gold-dark' }).globalToken.colorBgLayout,
+    );
 
     unmount();
 
@@ -134,7 +137,9 @@ describe('AppThemeProvider', () => {
     });
 
     expect(useGlobalStore.getState().themeMode).toBe('gold-light');
-    expect(document.documentElement.style.getPropertyValue('--gz-color-bg-layout')).toBe('#F4FBFF');
+    expect(document.documentElement.style.getPropertyValue('--gz-color-bg-layout')).toBe(
+      getDesignTokens({ themeMode: 'gold-light' }).globalToken.colorBgLayout,
+    );
 
     unmount();
   });

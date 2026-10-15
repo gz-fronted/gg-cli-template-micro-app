@@ -22,7 +22,7 @@ import {
   Modal,
   Tooltip,
   type MenuProps,
-} from '@chenhui996/gg-ui';
+} from 'gz-ui-web';
 import {
   useEffect,
   useState,

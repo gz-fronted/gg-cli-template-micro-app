@@ -1,4 +1,4 @@
-import { Select } from '@chenhui996/gg-ui';
+import { Select } from 'gz-ui-web';
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react';
 import { THEME_MODE_OPTIONS, type AppThemeMode } from '@/config/theme';
 import styles from './index.module.less';

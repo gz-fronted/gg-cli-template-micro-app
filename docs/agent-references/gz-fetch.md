@@ -29,7 +29,7 @@ configureGzFetch({
 模板在 `src/bootstrap/configure-request.ts` 中默认开启统一 401 处理。业务模块不得自行创建请求
 实例。如果在配置前调用 gzFetch，应视为初始化错误。
 
-请求反馈需要处于 gg-ui 主题上下文中。模板已在 `AppThemeProvider` 的 `ConfigProvider` 内挂载
+请求反馈需要处于 gz-ui-web 主题上下文中。模板已在 `AppThemeProvider` 的 `ConfigProvider` 内挂载
 `GzFetchFeedbackProvider`，业务页面不需要重复接入：
 
 ```tsx
@@ -119,7 +119,7 @@ HTTP 错误优先读取响应体 `msg`，否则使用默认文案。错误提示
 
 1. gzFetch 捕获 401，不再展示普通错误 message。
 2. 全局共享的 401 管理器只接受首个请求，多个请求或多个 gzFetch 实例不会重复弹窗。
-3. `GzFetchFeedbackProvider` 在当前 gg-ui `ConfigProvider` 上下文内展示登录失效 Modal。
+3. `GzFetchFeedbackProvider` 在当前 gz-ui-web `ConfigProvider` 上下文内展示登录失效 Modal。
 4. 用户确认后优先调用 `onUnauthorized`；未提供时跳转到 `loginUrl`。
 5. Modal 关闭完成后释放状态，后续独立发生的 401 可以再次弹窗。
 

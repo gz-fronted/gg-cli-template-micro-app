@@ -1,4 +1,4 @@
-import { applyDesignTokenCssVariables, ConfigProvider } from '@chenhui996/gg-ui';
+import { applyDesignTokenCssVariables, ConfigProvider } from 'gz-ui-web';
 import { GzFetchFeedbackProvider } from '@gz-fronted/gz-pc/fetch';
 import zhCN from 'antd/locale/zh_CN';
 import { useEffect, useLayoutEffect, type ReactNode } from 'react';

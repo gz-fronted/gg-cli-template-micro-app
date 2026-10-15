@@ -13,7 +13,7 @@
 - `@gz-fronted/gz-pc`
 - MSW 2
 - Less 4
-- `@chenhui996/gg-ui` / Ant Design 6
+- `gz-ui-web` / Ant Design 6
 - AG Grid React Enterprise
 - ECharts
 - Vitest / Testing Library
@@ -281,7 +281,7 @@ http://localhost:3001/?themeSwitcher=1
 
 ## 开发约定
 
-- 默认使用 `@chenhui996/gg-ui`，缺少所需组件时再使用 Ant Design。
+- 默认使用 `gz-ui-web`，缺少所需组件时再使用 Ant Design。
 - 业务表格默认使用 AG Grid React Enterprise。
 - 页面私有组件、Hooks 和状态遵循就近原则。
 - 跨页面共享状态放入 `src/store`。

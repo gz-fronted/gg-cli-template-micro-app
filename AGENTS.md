@@ -21,8 +21,8 @@ docs/agent-references/index.md
 - React Router 7
 - Zustand 5
 - `@gz-fronted/gz-pc`
-- `@chenhui996/gg-ui`
-- Ant Design 6（仅在 gg-ui 缺少所需能力时使用）
+- `gz-ui-web`
+- Ant Design 6（仅在 gz-ui-web 缺少所需能力时使用）
 - AG Grid React Enterprise
 - Less 4
 - Vite 8
@@ -39,7 +39,7 @@ docs/agent-references/tech-stack.md
 
 - 统一使用函数组件和 React Hooks。
 - 使用 TypeScript，并提供准确的请求、响应、Props 和状态类型。
-- 默认使用 `@chenhui996/gg-ui`；只有 gg-ui 缺少所需能力时才使用 Ant Design。
+- 默认使用 `gz-ui-web`；只有 gz-ui-web 缺少所需能力时才使用 Ant Design。
 - 常规业务表格默认使用 AG Grid Enterprise，不得为了省事替换为其他 Table。
 - 所有业务颜色使用 `--gz-*` 主题 CSS 变量，不得在 Less/CSS 中写死固定颜色值。
 - 遵守项目 ESLint、Stylelint 和 Prettier 规则。

@@ -25,7 +25,7 @@ if (!window.__GARFISH__) {
   import('antd/dist/reset.css');
 }
 
-// 主题 Provider 内的 cssVarScope 会由 gg-cli 使用项目名替换，隔离多个微应用的组件变量。
+// 主题 Provider 内的 cssVarScope 会由 gz-cli 使用项目名替换，隔离多个微应用的组件变量。
 interface ApplicationRootProps {
   basename: string;
   Framework?: ComponentType<FrameworkProps>;
