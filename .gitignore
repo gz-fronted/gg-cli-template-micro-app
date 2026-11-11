@@ -13,6 +13,11 @@ dist
 dist-ssr
 *.local
 
+# 本地测试与诊断产物
+coverage/
+.playwright-cli/
+*.heapsnapshot
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

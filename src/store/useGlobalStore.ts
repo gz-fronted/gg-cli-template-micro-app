@@ -12,7 +12,7 @@ export interface GlobalState {
   token: string | null;
   themeMode: AppThemeMode;
   setThemeMode: (themeMode: AppThemeMode) => void;
-  setGlobalState: (state: Partial<GlobalState>) => void;
+  setGlobalState: (state: Partial<Pick<GlobalState, 'user' | 'token'>>) => void;
 }
 
 export const useGlobalStore = create<GlobalState>((set) => ({
@@ -22,3 +22,7 @@ export const useGlobalStore = create<GlobalState>((set) => ({
   setThemeMode: (themeMode) => set({ themeMode }),
   setGlobalState: (state) => set((prev) => ({ ...prev, ...state })),
 }));
+
+export const resetGlobalState = (): void => {
+  useGlobalStore.setState({ user: null, token: null, themeMode: 'gold-dark' });
+};
