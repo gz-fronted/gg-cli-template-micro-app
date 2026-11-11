@@ -29,7 +29,7 @@
 - development、test、mock、production 多环境构建
 - 声明式 Mock mode，未匹配请求自动放行真实接口
 - React Compiler
-- 第三方依赖分包和构建产物分析
+- 稳定共享依赖运行时、按次创建的页面入口和构建产物分析
 - 独立运行与 Garfish 子应用运行
 
 ## 快速开始
@@ -96,6 +96,9 @@ npm run analyze
 # 本地预览构建产物
 npm run preview
 ```
+
+构建分析分别输出页面入口的 `dist/stats.html` 和共享依赖的
+`dist/shared-runtime-stats.html`。
 
 ## 提交规范
 
@@ -250,10 +253,26 @@ http://localhost:3001/?themeSwitcher=1
 
 ### Garfish 子应用
 
-当应用由 Garfish 加载时，入口通过 `@garfish/bridge-react-v18` 导出 `provider`，主应用可通过 `appInfo.props.globalState` 传递路由 basename、主题等全局状态。
+当应用由 Garfish 加载时，入口导出包含清理逻辑的异步 `provider`，内部使用 `@garfish/bridge-react-v18`。
+主应用可通过 `props.globalState` 传递用户、Token、路由 basename、主题等全局状态。
+路由优先读取 `globalState.basename`，兼容 bridge 的 `appInfo.basename`。
 主题优先读取 `appInfo.props.themeMode`，兼容读取 `appInfo.props.globalState.themeMode`；非法值回退到
 `gold-dark`。子应用监听主应用广播的 `g-theme-change` 事件，并在主题变化时更新 Store 和 `--gz-*`
 变量；卸载时会恢复主应用原有变量。gzFetch 始终只从 Store 读取 Token。
+
+生产构建使用 `scripts/micro-app-runtime.ts`：React、UI 库及 Axios 等依赖通过稳定哈希 URL
+共享；React、AntD、ECharts 的库级分包规则在 `vite.config.ts` 的 `sharedChunks` 中维护，
+JS/CSS 等资源继续按类型分类输出。页面源码、Store、请求配置和 bridge 随每次加载独立创建。
+生产页面入口仍为单个 IIFE，业务动态导入会内联；库级分包由共享 ESM 层负责。
+关闭时卸载 React、销毁 Router、
+取消在途请求并清空会话状态；Mock 启用时同时停止 Worker。不要只复制 `src/`，构建脚本及
+`vite.config.ts` 必须一起保留。
+
+发布时完整部署同一次构建的 `dist/`，包含 `index.html`、页面脚本、共享运行时和样式。
+共享运行时按“同一构建、同一浏览器文档”复用；原生 ESM 不支持主动逐模块卸载，在同一文档
+加载多个构建版本仍会保留多份运行时。
+
+生产构建后可执行 `node scripts/check-build.mjs`，校验入口、共享运行时和样式产物。
 
 修改微应用入口后，应同时验证：
 

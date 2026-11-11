@@ -17,3 +17,8 @@ interface ImportMeta {
 interface Window {
   __GARFISH__?: boolean;
 }
+
+declare const __GARFISH_EXPORTS__: {
+  registerProvider?: (provider: typeof import('./main').provider) => void;
+  provider?: typeof import('./main').provider;
+};

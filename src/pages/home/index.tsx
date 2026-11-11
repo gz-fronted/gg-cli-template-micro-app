@@ -12,11 +12,6 @@ const { Title } = Typography;
 const WelcomeHeader = () => {
   // 从全局 Store 中获取由主应用透传过来的用户信息
   const user = useGlobalStore((state) => state.user);
-  const token = useGlobalStore((state) => state.token);
-
-  console.log('[micro-app user]', user);
-  console.log('[micro-app token]', token);
-
   const displayName = user?.name || '游客';
   const roleInfo = user?.dept ? `[${user.dept}] ` : '';
 

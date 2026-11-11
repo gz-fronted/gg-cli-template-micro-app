@@ -3,6 +3,7 @@ import react, { reactCompilerPreset } from '@vitejs/plugin-react';
 import babel from '@rolldown/plugin-babel';
 import path from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
+import { microAppRuntime } from './scripts/micro-app-runtime.ts';
 // import garfishPlugin from 'vite-plugin-garfish-mf';
 // import cdn from 'vite-plugin-cdn-import'
 
@@ -52,6 +53,24 @@ export default defineConfig(({ mode }) => {
       }),
       */
       babel({ presets: [reactCompilerPreset()] }),
+      microAppRuntime({
+        // 原有库级分包规则在共享 ESM 依赖层执行，页面 IIFE 仍按实例创建。
+        sharedChunks(id) {
+          if (
+            id.includes('node_modules/react') ||
+            id.includes('node_modules/react-dom') ||
+            id.includes('node_modules/react-router-dom')
+          ) {
+            return 'vendor-react';
+          }
+          if (id.includes('node_modules/echarts') || id.includes('node_modules/zrender')) {
+            return 'vendor-echarts';
+          }
+          if (id.includes('node_modules/antd') || id.includes('node_modules/@ant-design')) {
+            return 'vendor-antd';
+          }
+        },
+      }),
       process.env.ANALYZE === 'true' &&
         visualizer({
           open: true,
@@ -78,29 +97,9 @@ export default defineConfig(({ mode }) => {
       },
       rollupOptions: {
         output: {
-          // 静态资源分类打包
           chunkFileNames: 'assets/js/[name]-[hash].js',
           entryFileNames: 'assets/js/[name]-[hash].js',
           assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
-          // 手动分包策略
-          manualChunks(id) {
-            // 1. 将 react 核心全家桶打包到一起
-            if (
-              id.includes('node_modules/react') ||
-              id.includes('node_modules/react-dom') ||
-              id.includes('node_modules/react-router-dom')
-            ) {
-              return 'vendor-react';
-            }
-            // 2. 将 echarts 单独打包 (体积较大)
-            if (id.includes('node_modules/echarts') || id.includes('node_modules/zrender')) {
-              return 'vendor-echarts';
-            }
-            // 3. 将 antd 和图标单独打包
-            if (id.includes('node_modules/antd') || id.includes('node_modules/@ant-design')) {
-              return 'vendor-antd';
-            }
-          },
         },
       },
     },
